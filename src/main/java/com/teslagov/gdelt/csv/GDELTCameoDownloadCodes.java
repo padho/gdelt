@@ -19,7 +19,7 @@ public enum GDELTCameoDownloadCodes
 		return rootCameoCode;
 	}
 
-	private GDELTCameoDownloadCodes( String cameoCode )
+	GDELTCameoDownloadCodes( String cameoCode )
 	{
 		this.rootCameoCode = cameoCode;
 	}

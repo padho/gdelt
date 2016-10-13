@@ -9,6 +9,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,9 +120,9 @@ public class CsvProcessor
 		{
 			String[] values = null;
 
-			CSVRecord record = csvRecords.get( 0 );
+			CSVRecord headerRecord = csvRecords.get( 0 );
 
-			int size = record.size();
+			int size = headerRecord.size();
 			logger.debug( "Found {} headers", size );
 
 			// TODO what's the point of having multiple header enums if we're hard-coding the headers below???
@@ -139,6 +140,13 @@ public class CsvProcessor
 			{
 				logger.debug( "using GDELT2_0ColumnHeader headers" );
 				values = GDELT2_0ColumnHeader.getNames();
+			}
+			else
+			{
+				List<String> headers = new ArrayList<>();
+				headerRecord.iterator().forEachRemaining( headers::add );
+				String concatenatedHeaders = StringUtils.join( headers, "|" );
+				throw new GDELTException( String.format( "Unexpected number of headers (%d): %s", size, concatenatedHeaders ) );
 			}
 
 			if ( values != null )

@@ -8,7 +8,6 @@ import java.util.Date;
 /**
  * @author hanymorcos
  */
-
 @Data
 public class GDELTDailyDownloadDB implements Serializable
 {
