@@ -75,12 +75,17 @@ public class GdeltApiTest
 //			e.printStackTrace();
 //		}
 
+		long start, end;
+
 		File file = new File( GdeltApiTest.class.getClassLoader().getResource( "20161013151500.export.CSV" ).getFile() );
 		GDELTReturnResult gdeltReturnResult = gdeltApi.parseCsv( file );
 		gdeltReturnResult.getGdeltEventList().forEach( e -> logger.trace( e.toString() ) );
 
 		List<GdeltEventResource> gdeltEvents = gdeltReturnResult.getGdeltEventList();
+		start = System.currentTimeMillis();
 		long count = gdeltEvents.stream().filter( event -> GdeltCameoDownloadCodes.containsCameo( event.getEventRootCode() ) ).count();
+		end = System.currentTimeMillis();
+		logger.debug( "Took {} ms to filter", end - start );
 		logger.debug( "Loaded {} events", count );
 		assertEquals( 653, count );
 	}
