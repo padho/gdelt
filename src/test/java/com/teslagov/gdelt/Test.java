@@ -1,7 +1,7 @@
 package com.teslagov.gdelt;
 
 import com.teslagov.gdelt.csv.CsvProcessor;
-import com.teslagov.gdelt.models.GDELTEventResource;
+import com.teslagov.gdelt.models.GdeltEventResource;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ public class Test
 {
 	private static final Logger logger = LoggerFactory.getLogger( Test.class );
 
-	enum GDELTCameoDownloadCodes
+	enum GdeltCameoDownloadCodes
 	{
 		EngageInMaterialCooperation( "06" ),
 		ProvideAid( "07" ),
@@ -33,7 +33,7 @@ public class Test
 			return rootCameoCode;
 		}
 
-		GDELTCameoDownloadCodes( String cameoCode )
+		GdeltCameoDownloadCodes( String cameoCode )
 		{
 			this.rootCameoCode = cameoCode;
 		}
@@ -55,8 +55,8 @@ public class Test
 
 	public static void main( String[] args )
 	{
-		GDELTLastUpdateFetcher gdeltLastUpdateFetcher = new GDELTLastUpdateFetcher();
-		GDELTConfiguration gdeltConfiguration = new GDELTConfiguration()
+		GdeltLastUpdateFetcher gdeltLastUpdateFetcher = new GdeltLastUpdateFetcher();
+		GdeltConfiguration gdeltConfiguration = new GdeltConfiguration()
 		{
 			@Override
 			public String getV2ServerURL()
@@ -71,7 +71,7 @@ public class Test
 //		String lastUpdateUrl = gdeltLastUpdateFetcher.getGDELTLastUpdate( httpClient, gdeltConfiguration );
 
 		// Step 2: download zipped csv and unzip
-//		GDELTLastUpdateDownloader lastUpdateDownloader = new GDELTLastUpdateDownloader();
+//		GdeltLastUpdateDownloader lastUpdateDownloader = new GdeltLastUpdateDownloader();
 //		lastUpdateDownloader.downloadGDELTFile( httpClient, new File( "gdelt" ), lastUpdateUrl, false );
 
 		// Step 3: process csv
@@ -94,8 +94,8 @@ public class Test
 		CsvProcessor.GDELTReturnResult gdeltReturnResult = csvProcessor.processCSV( file );
 //		gdeltReturnResult.getGdeltEventList().forEach( e -> logger.info( e.toString() ) );
 
-		List<GDELTEventResource> gdeltEvents = gdeltReturnResult.getGdeltEventList();
-		long count = gdeltEvents.stream().filter( event -> GDELTCameoDownloadCodes.containsCameo( event.getEventRootCode() ) ).count();
+		List<GdeltEventResource> gdeltEvents = gdeltReturnResult.getGdeltEventList();
+		long count = gdeltEvents.stream().filter( event -> GdeltCameoDownloadCodes.containsCameo( event.getEventRootCode() ) ).count();
 		logger.debug( "Loaded {} events", count );
 	}
 }

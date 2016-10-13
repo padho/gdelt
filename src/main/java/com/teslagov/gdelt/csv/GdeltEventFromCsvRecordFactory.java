@@ -1,7 +1,7 @@
 package com.teslagov.gdelt.csv;
 
-import com.teslagov.gdelt.GDELTException;
-import com.teslagov.gdelt.models.GDELTEventResource;
+import com.teslagov.gdelt.GdeltException;
+import com.teslagov.gdelt.models.GdeltEventResource;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,17 +16,17 @@ import java.util.Map;
 /**
  * @author Kevin Chen
  */
-public class GDELTEventFromCsvRecordFactory
+public class GdeltEventFromCsvRecordFactory
 {
-	private static final Logger logger = LoggerFactory.getLogger( GDELTEventFromCsvRecordFactory.class );
+	private static final Logger logger = LoggerFactory.getLogger( GdeltEventFromCsvRecordFactory.class );
 
 	private static final DateFormat dateFormat = new SimpleDateFormat( "yyyyMMdd", Locale.ENGLISH );
 
-	public static GDELTEventResource create( CSVRecord record, Map<String, Integer> values )
+	public static GdeltEventResource create( CSVRecord record, Map<String, Integer> values )
 	{
-		GDELTEventResource gdeltEvent = null;
+		GdeltEventResource gdeltEvent = null;
 
-		gdeltEvent = new GDELTEventResource();
+		gdeltEvent = new GdeltEventResource();
 
 		String actionGeoCountryCode = record.get( values.get( "ActionGeo_CountryCode" ) );
 		gdeltEvent.setActionGeoCountryCode( actionGeoCountryCode );
@@ -49,7 +49,7 @@ public class GDELTEventFromCsvRecordFactory
 		}
 		catch ( ParseException e )
 		{
-			throw new GDELTException( "Could not parse date: " + sqldate, e );
+			throw new GdeltException( "Could not parse date: " + sqldate, e );
 		}
 
 		gdeltEvent.setActor1Code( record.get( values.get( "Actor1Code" ) ) );

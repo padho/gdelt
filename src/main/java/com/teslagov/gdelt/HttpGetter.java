@@ -17,7 +17,7 @@ public class HttpGetter
 		}
 		catch ( URISyntaxException e )
 		{
-			throw new GDELTException( "Invalid url: " + url, e );
+			throw new GdeltException( "Invalid url: " + url, e );
 		}
 		return new HttpGet( url );
 	}

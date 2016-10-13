@@ -1,12 +1,11 @@
 package com.teslagov.gdelt.csv;
 
 /**
- * The only difference between this and {@link GDELToldColumnHeader} is that this has a SOURCEURL.
- * The only difference between this and {@link GDELT2_0ColumnHeader} is that this lacks ADM2 codes.
+ * The only difference between this and {@link Gdelt1_0ColumnHeader} are the 3 ADM2 codes.
  *
  * @author Kevin Chen
  */
-public enum GDELT1_0ColumnHeader
+public enum Gdelt2_0ColumnHeader
 {
 	GLOBALEVENTID,
 	SQLDATE,
@@ -47,6 +46,7 @@ public enum GDELT1_0ColumnHeader
 	Actor1Geo_FullName,
 	Actor1Geo_CountryCode,
 	Actor1Geo_ADM1Code,
+	Actor1Geo_ADM2Code,
 	Actor1Geo_Lat,
 	Actor1Geo_Long,
 	Actor1Geo_FeatureID,
@@ -54,6 +54,7 @@ public enum GDELT1_0ColumnHeader
 	Actor2Geo_FullName,
 	Actor2Geo_CountryCode,
 	Actor2Geo_ADM1Code,
+	Actor2Geo_ADM2Code,
 	Actor2Geo_Lat,
 	Actor2Geo_Long,
 	Actor2Geo_FeatureID,
@@ -61,6 +62,7 @@ public enum GDELT1_0ColumnHeader
 	ActionGeo_FullName,
 	ActionGeo_CountryCode,
 	ActionGeo_ADM1Code,
+	ActionGeo_ADM2Code,
 	ActionGeo_Lat,
 	ActionGeo_Long,
 	ActionGeo_FeatureID,
@@ -74,12 +76,12 @@ public enum GDELT1_0ColumnHeader
 	static
 	{
 		// initialize size
-		size = GDELT1_0ColumnHeader.values().length;
+		size = Gdelt2_0ColumnHeader.values().length;
 
 		// initialize names
 		names = new String[size];
 		int index = 0;
-		for ( GDELT1_0ColumnHeader s : GDELT1_0ColumnHeader.values() )
+		for ( Gdelt2_0ColumnHeader s : Gdelt2_0ColumnHeader.values() )
 		{
 			names[index++] = s.name();
 		}

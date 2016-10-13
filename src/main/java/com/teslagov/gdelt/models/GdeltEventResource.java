@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Kevin Chen
  */
 @Data
-public class GDELTEventResource implements Serializable
+public class GdeltEventResource implements Serializable
 {
 	private int globalEventID;
 

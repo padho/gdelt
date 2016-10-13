@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 /**
  * Retrieves the text at {@code http://data.gdeltproject.org/gdelt_v2/lastupdate.txt}.
@@ -24,11 +23,11 @@ import java.net.URISyntaxException;
  * </pre>
  * @author Kevin Chen
  */
-public class GDELTLastUpdateFetcher
+public class GdeltLastUpdateFetcher
 {
-	private static final Logger logger = LoggerFactory.getLogger( GDELTLastUpdateFetcher.class );
+	private static final Logger logger = LoggerFactory.getLogger( GdeltLastUpdateFetcher.class );
 
-	public String getGDELTLastUpdate( HttpClient httpClient, GDELTConfiguration gdeltConfiguration )
+	public String getGDELTLastUpdate( HttpClient httpClient, GdeltConfiguration gdeltConfiguration )
 	{
 		String gdeltV2ServerURL = gdeltConfiguration.getV2ServerURL();
 
@@ -48,7 +47,7 @@ public class GDELTLastUpdateFetcher
 			logger.error( "Failed to reach {} after {} ms. Socket timeout: {}, Connection timeout: {}",
 				gdeltV2ServerURL, end - start, HttpClientFactory.SOCKET_TIMEOUT, HttpClientFactory.CONNECTION_TIMEOUT );
 			logger.error( "GDELT failed", e );
-			throw new GDELTException( "Could not execute request for GDELT last update", e );
+			throw new GdeltException( "Could not execute request for GDELT last update", e );
 		}
 
 		end = System.currentTimeMillis();
@@ -57,7 +56,7 @@ public class GDELTLastUpdateFetcher
 
 		if ( response.getStatusLine().getStatusCode() != 200 )
 		{
-			throw new GDELTException( "Response not OK" );
+			throw new GdeltException( "Response not OK" );
 		}
 
 		HttpEntity httpEntity = response.getEntity();
@@ -68,7 +67,7 @@ public class GDELTLastUpdateFetcher
 		}
 		catch ( IOException e )
 		{
-			throw new GDELTException( "Could not read http entity from GDELT last update response", e );
+			throw new GdeltException( "Could not read http entity from GDELT last update response", e );
 		}
 
 		logger.debug( "FOUND RESPONSE: {}", update );
@@ -83,7 +82,7 @@ public class GDELTLastUpdateFetcher
 		String[] updateEntries = StringUtils.split( update, ' ' );
 		if ( updateEntries == null || updateEntries.length <= 3 )
 		{
-			throw new GDELTException( "GDELT last update text is supposed to have at least 3 entries. Instead we got: " + update );
+			throw new GdeltException( "GDELT last update text is supposed to have at least 3 entries. Instead we got: " + update );
 		}
 		else
 		{

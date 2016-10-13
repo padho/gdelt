@@ -1,10 +1,10 @@
 package com.teslagov.gdelt.csv;
 
 /**
- * The only difference between this and {@link GDELT1_0ColumnHeader} is that this lacks SOURCEURL.
+ * The only difference between this and {@link Gdelt1_0ColumnHeader} is that this lacks SOURCEURL.
  * @author Kevin Chen
  */
-public enum GDELToldColumnHeader
+public enum GdeltOldColumnHeader
 {
 	GLOBALEVENTID,
 	SQLDATE,
@@ -71,12 +71,12 @@ public enum GDELToldColumnHeader
 	static
 	{
 		// initialize size
-		size = GDELToldColumnHeader.values().length;
+		size = GdeltOldColumnHeader.values().length;
 
 		// initialize names
 		names = new String[size];
 		int index = 0;
-		for ( GDELToldColumnHeader s : GDELToldColumnHeader.values() )
+		for ( GdeltOldColumnHeader s : GdeltOldColumnHeader.values() )
 		{
 			names[index++] = s.name();
 		}

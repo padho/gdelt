@@ -1,8 +1,8 @@
 package com.teslagov.gdelt.csv;
 
-import com.teslagov.gdelt.GDELTException;
-import com.teslagov.gdelt.models.GDELTDailyDownloadResource;
-import com.teslagov.gdelt.models.GDELTEventResource;
+import com.teslagov.gdelt.GdeltException;
+import com.teslagov.gdelt.models.GdeltDailyDownloadResource;
+import com.teslagov.gdelt.models.GdeltEventResource;
 import lombok.Data;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -37,9 +37,9 @@ public class CsvProcessor
 	@Data
 	public class GDELTReturnResult
 	{
-		GDELTDailyDownloadResource downloadResult;
+		GdeltDailyDownloadResource downloadResult;
 
-		List<GDELTEventResource> gdeltEventList;
+		List<GdeltEventResource> gdeltEventList;
 	}
 
 	private CSVParser createCvsParser( Reader reader, CSVFormat csvFileFormat )
@@ -50,7 +50,7 @@ public class CsvProcessor
 		}
 		catch ( IOException e )
 		{
-			throw new GDELTException( "Could not construct CSV parser", e );
+			throw new GdeltException( "Could not construct CSV parser", e );
 		}
 	}
 
@@ -67,7 +67,7 @@ public class CsvProcessor
 		}
 		catch ( FileNotFoundException e )
 		{
-			throw new GDELTException( "File not found", e );
+			throw new GdeltException( "File not found", e );
 		}
 		CSVParser csvParser = createCvsParser( reader, csvFormat );
 
@@ -89,11 +89,11 @@ public class CsvProcessor
 
 	private GDELTReturnResult processCSV( CSVParser csvParser, CSVFormat csvFormat )
 	{
-		List<GDELTEventResource> gdeltEventList = new ArrayList<>();
+		List<GdeltEventResource> gdeltEventList = new ArrayList<>();
 
 		GDELTReturnResult gdeltResult = new GDELTReturnResult();
 
-		GDELTDailyDownloadResource gdeltDownload = new GDELTDailyDownloadResource();
+		GdeltDailyDownloadResource gdeltDownload = new GdeltDailyDownloadResource();
 		gdeltResult.setGdeltEventList( new ArrayList<>() );
 
 		gdeltResult.setDownloadResult( gdeltDownload );
@@ -109,7 +109,7 @@ public class CsvProcessor
 		}
 		catch ( IOException e )
 		{
-			throw new GDELTException( "Could not get records from csv", e );
+			throw new GdeltException( "Could not get records from csv", e );
 		}
 
 		if ( csvRecords.isEmpty() )
@@ -127,27 +127,27 @@ public class CsvProcessor
 			logger.debug( "Found {} headers", size );
 
 			// TODO what's the point of having multiple header enums if we're hard-coding the headers below???
-			if ( size == GDELToldColumnHeader.getSize() )
+			if ( size == GdeltOldColumnHeader.getSize() )
 			{
-				logger.debug( "using GDELToldColumnHeader headers" );
-				values = GDELToldColumnHeader.getNames();
+				logger.debug( "using GdeltOldColumnHeader headers" );
+				values = GdeltOldColumnHeader.getNames();
 			}
-			else if ( size == GDELT1_0ColumnHeader.getSize() )
+			else if ( size == Gdelt1_0ColumnHeader.getSize() )
 			{
-				logger.debug( "using GDELT1_0ColumnHeader headers" );
-				values = GDELT1_0ColumnHeader.getNames();
+				logger.debug( "using Gdelt1_0ColumnHeader headers" );
+				values = Gdelt1_0ColumnHeader.getNames();
 			}
-			else if ( size == GDELT2_0ColumnHeader.getSize() )
+			else if ( size == Gdelt2_0ColumnHeader.getSize() )
 			{
-				logger.debug( "using GDELT2_0ColumnHeader headers" );
-				values = GDELT2_0ColumnHeader.getNames();
+				logger.debug( "using Gdelt2_0ColumnHeader headers" );
+				values = Gdelt2_0ColumnHeader.getNames();
 			}
 			else
 			{
 				List<String> headers = new ArrayList<>();
 				headerRecord.iterator().forEachRemaining( headers::add );
 				String concatenatedHeaders = StringUtils.join( headers, "|" );
-				throw new GDELTException( String.format( "Unexpected number of headers (%d): %s", size, concatenatedHeaders ) );
+				throw new GdeltException( String.format( "Unexpected number of headers (%d): %s", size, concatenatedHeaders ) );
 			}
 
 			if ( values != null )
@@ -168,7 +168,7 @@ public class CsvProcessor
 				gdeltEventList.addAll( result.getGdeltEventList() );
 
 				// add to the main failed and loaded record count
-				GDELTDailyDownloadResource d = result.getDownloadResult();
+				GdeltDailyDownloadResource d = result.getDownloadResult();
 
 				recordsFailed += d.getRecordsFailed();
 				recordsLoaded += d.getRecordsLoaded();
@@ -188,7 +188,7 @@ public class CsvProcessor
 	private GDELTReturnResult processEvents( List<CSVRecord> records, Map<String, Integer> values )
 	{
 		GDELTReturnResult gdeltResult = new GDELTReturnResult();
-		List<GDELTEventResource> gdeltEventList = new ArrayList<>();
+		List<GdeltEventResource> gdeltEventList = new ArrayList<>();
 		int recordsLoaded = 0;
 		int recordsFailed = 0;
 
@@ -197,10 +197,10 @@ public class CsvProcessor
 			logger.trace( "Parsing record {}", i );
 			CSVRecord record = records.get( i );
 
-			GDELTEventResource gdeltEvent;
+			GdeltEventResource gdeltEvent;
 			try
 			{
-				gdeltEvent = GDELTEventFromCsvRecordFactory.create( record, values );
+				gdeltEvent = GdeltEventFromCsvRecordFactory.create( record, values );
 			}
 			catch ( Exception e )
 			{
@@ -216,7 +216,7 @@ public class CsvProcessor
 
 		logger.debug( "Went through {} records", records.size() );
 
-		GDELTDailyDownloadResource gdeltDownload = new GDELTDailyDownloadResource();
+		GdeltDailyDownloadResource gdeltDownload = new GdeltDailyDownloadResource();
 
 		gdeltDownload.setDownloadedSuccessfully( Boolean.TRUE );
 		gdeltDownload.setRecordsFailed( recordsFailed );

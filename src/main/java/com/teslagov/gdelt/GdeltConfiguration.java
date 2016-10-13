@@ -3,7 +3,7 @@ package com.teslagov.gdelt;
 /**
  * @author Kevin Chen
  */
-public interface GDELTConfiguration
+public interface GdeltConfiguration
 {
 	String getV2ServerURL();
 }

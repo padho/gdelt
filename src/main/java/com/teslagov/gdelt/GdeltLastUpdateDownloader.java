@@ -13,9 +13,9 @@ import java.io.IOException;
 /**
  * @author Kevin Chen
  */
-public class GDELTLastUpdateDownloader
+public class GdeltLastUpdateDownloader
 {
-	private static final Logger logger = LoggerFactory.getLogger( GDELTLastUpdateDownloader.class );
+	private static final Logger logger = LoggerFactory.getLogger( GdeltLastUpdateDownloader.class );
 
 	private void ensureDirectoryExists( File directory )
 	{
@@ -96,7 +96,7 @@ public class GDELTLastUpdateDownloader
 		}
 		catch ( IOException e )
 		{
-			throw new GDELTException( "Could not execute request", e );
+			throw new GdeltException( "Could not execute request", e );
 		}
 
 		if ( response.getStatusLine().getStatusCode() == 200 )
@@ -108,7 +108,7 @@ public class GDELTLastUpdateDownloader
 			}
 			catch ( IOException e )
 			{
-				throw new GDELTException( "Could not get response", e );
+				throw new GdeltException( "Could not get response", e );
 			}
 		}
 		return false;
