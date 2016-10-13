@@ -1,7 +1,8 @@
 package com.teslagov.gdelt.csv;
 
 /**
- * @author hanymorcos
+ * The only difference between this and {@link GDELT1_0ColumnHeader} is that this lacks SOURCEURL.
+ * @author Kevin Chen
  */
 public enum GDELToldColumnHeader
 {

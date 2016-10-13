@@ -1,7 +1,9 @@
 package com.teslagov.gdelt.csv;
 
 /**
- * @author hanymorcos
+ * The only difference between this and {@link GDELT1_0ColumnHeader} are the 3 ADM2 codes.
+ *
+ * @author Kevin Chen
  */
 public enum GDELT2_0ColumnHeader
 {

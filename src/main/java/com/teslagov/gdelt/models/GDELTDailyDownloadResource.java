@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author hanymorcos
+ * @author Kevin Chen
  */
 @Data
 public class GDELTDailyDownloadResource implements Serializable

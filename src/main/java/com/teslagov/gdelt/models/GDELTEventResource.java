@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Country codes are stored as FIPS 10-4.
+ * Country codes are stored as FIPS 10-4 strings.
  *
- * @author hanymorcos
+ * @author Kevin Chen
  */
 @Data
 public class GDELTEventResource implements Serializable

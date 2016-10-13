@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Processes a GDELT CSV file.
+ *
  * @author Kevin Chen
  */
 public class CsvProcessor
