@@ -1,21 +1,58 @@
 package com.teslagov.gdelt.models;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author Kevin Chen
  */
-@Data
 public class GdeltDailyDownloadResource implements Serializable
 {
-	Boolean downloadedSuccessfully;
+	private Boolean downloadedSuccessfully;
 
-	int recordsLoaded = 0;
+	private int recordsLoaded;
 
-	int recordsFailed = 0;
+	private int recordsFailed;
 
-	Date modifiedDate = new Date();
+	private Date modifiedDate;
+
+	public Boolean getDownloadedSuccessfully()
+	{
+		return downloadedSuccessfully;
+	}
+
+	public void setDownloadedSuccessfully( Boolean downloadedSuccessfully )
+	{
+		this.downloadedSuccessfully = downloadedSuccessfully;
+	}
+
+	public int getRecordsLoaded()
+	{
+		return recordsLoaded;
+	}
+
+	public void setRecordsLoaded( int recordsLoaded )
+	{
+		this.recordsLoaded = recordsLoaded;
+	}
+
+	public int getRecordsFailed()
+	{
+		return recordsFailed;
+	}
+
+	public void setRecordsFailed( int recordsFailed )
+	{
+		this.recordsFailed = recordsFailed;
+	}
+
+	public Date getModifiedDate()
+	{
+		return modifiedDate;
+	}
+
+	public void setModifiedDate( Date modifiedDate )
+	{
+		this.modifiedDate = modifiedDate;
+	}
 }

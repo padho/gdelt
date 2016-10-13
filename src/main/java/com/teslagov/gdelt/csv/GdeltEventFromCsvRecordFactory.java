@@ -92,7 +92,7 @@ public class GdeltEventFromCsvRecordFactory
 
 		gdeltEvent.setActor2Type3Code( record.get( values.get( "Actor2Type3Code" ) ) );
 
-		gdeltEvent.setIsRootEvent( Boolean.parseBoolean( record.get( values.get( "IsRootEvent" ) ) ) );
+		gdeltEvent.setRootEvent( Boolean.parseBoolean( record.get( values.get( "IsRootEvent" ) ) ) );
 
 		gdeltEvent.setEventCode( record.get( values.get( "EventCode" ) ) );
 
