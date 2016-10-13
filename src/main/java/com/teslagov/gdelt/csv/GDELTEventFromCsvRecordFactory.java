@@ -1,7 +1,7 @@
 package com.teslagov.gdelt.csv;
 
 import com.teslagov.gdelt.GDELTException;
-import com.teslagov.gdelt.models.GDELTEventDB;
+import com.teslagov.gdelt.models.GDELTEventResource;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +22,11 @@ public class GDELTEventFromCsvRecordFactory
 
 	private static final DateFormat dateFormat = new SimpleDateFormat( "yyyyMMdd", Locale.ENGLISH );
 
-	public static GDELTEventDB create( CSVRecord record, Map<String, Integer> values )
+	public static GDELTEventResource create( CSVRecord record, Map<String, Integer> values )
 	{
-		GDELTEventDB gdeltEvent = null;
+		GDELTEventResource gdeltEvent = null;
 
-		gdeltEvent = new GDELTEventDB();
+		gdeltEvent = new GDELTEventResource();
 
 		String actionGeoCountryCode = record.get( values.get( "ActionGeo_CountryCode" ) );
 		gdeltEvent.setActionGeoCountryCode( actionGeoCountryCode );

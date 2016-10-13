@@ -9,7 +9,7 @@ import java.util.Date;
  * @author hanymorcos
  */
 @Data
-public class GDELTDailyDownloadDB implements Serializable
+public class GDELTDailyDownloadResource implements Serializable
 {
 	Boolean downloadedSuccessfully;
 

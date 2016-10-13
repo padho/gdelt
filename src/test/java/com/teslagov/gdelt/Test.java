@@ -2,7 +2,7 @@ package com.teslagov.gdelt;
 
 import com.teslagov.gdelt.csv.CsvProcessor;
 import com.teslagov.gdelt.csv.GDELTCameoDownloadCodes;
-import com.teslagov.gdelt.models.GDELTEventDB;
+import com.teslagov.gdelt.models.GDELTEventResource;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Kevin Chen
@@ -60,7 +59,7 @@ public class Test
 		CsvProcessor.GDELTReturnResult gdeltReturnResult = csvProcessor.processCSV( file );
 //		gdeltReturnResult.getGdeltEventList().forEach( e -> logger.info( e.toString() ) );
 
-		List<GDELTEventDB> gdeltEvents = gdeltReturnResult.getGdeltEventList();
+		List<GDELTEventResource> gdeltEvents = gdeltReturnResult.getGdeltEventList();
 		long count = gdeltEvents.stream().filter( event -> GDELTCameoDownloadCodes.containsCameo( event.getEventRootCode() ) ).count();
 		logger.debug( "Loaded {} events", count );
 	}

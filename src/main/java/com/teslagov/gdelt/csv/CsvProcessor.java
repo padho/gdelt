@@ -1,8 +1,8 @@
 package com.teslagov.gdelt.csv;
 
 import com.teslagov.gdelt.GDELTException;
-import com.teslagov.gdelt.models.GDELTDailyDownloadDB;
-import com.teslagov.gdelt.models.GDELTEventDB;
+import com.teslagov.gdelt.models.GDELTDailyDownloadResource;
+import com.teslagov.gdelt.models.GDELTEventResource;
 import lombok.Data;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -35,9 +35,9 @@ public class CsvProcessor
 	@Data
 	public class GDELTReturnResult
 	{
-		GDELTDailyDownloadDB downloadResult;
+		GDELTDailyDownloadResource downloadResult;
 
-		List<GDELTEventDB> gdeltEventList;
+		List<GDELTEventResource> gdeltEventList;
 	}
 
 	private CSVParser createCvsParser( Reader reader, CSVFormat csvFileFormat )
@@ -87,11 +87,11 @@ public class CsvProcessor
 
 	private GDELTReturnResult processCSV( CSVParser csvParser, CSVFormat csvFormat )
 	{
-		List<GDELTEventDB> gdeltEventList = new ArrayList<>();
+		List<GDELTEventResource> gdeltEventList = new ArrayList<>();
 
 		GDELTReturnResult gdeltResult = new GDELTReturnResult();
 
-		GDELTDailyDownloadDB gdeltDownload = new GDELTDailyDownloadDB();
+		GDELTDailyDownloadResource gdeltDownload = new GDELTDailyDownloadResource();
 		gdeltResult.setGdeltEventList( new ArrayList<>() );
 
 		gdeltResult.setDownloadResult( gdeltDownload );
@@ -166,7 +166,7 @@ public class CsvProcessor
 				gdeltEventList.addAll( result.getGdeltEventList() );
 
 				// add to the main failed and loaded record count
-				GDELTDailyDownloadDB d = result.getDownloadResult();
+				GDELTDailyDownloadResource d = result.getDownloadResult();
 
 				recordsFailed += d.getRecordsFailed();
 				recordsLoaded += d.getRecordsLoaded();
@@ -186,7 +186,7 @@ public class CsvProcessor
 	private GDELTReturnResult processEvents( List<CSVRecord> records, Map<String, Integer> values )
 	{
 		GDELTReturnResult gdeltResult = new GDELTReturnResult();
-		List<GDELTEventDB> gdeltEventList = new ArrayList<>();
+		List<GDELTEventResource> gdeltEventList = new ArrayList<>();
 		int recordsLoaded = 0;
 		int recordsFailed = 0;
 
@@ -195,7 +195,7 @@ public class CsvProcessor
 			logger.trace( "Parsing record {}", i );
 			CSVRecord record = records.get( i );
 
-			GDELTEventDB gdeltEvent;
+			GDELTEventResource gdeltEvent;
 			try
 			{
 				gdeltEvent = GDELTEventFromCsvRecordFactory.create( record, values );
@@ -214,7 +214,7 @@ public class CsvProcessor
 
 		logger.debug( "Went through {} records", records.size() );
 
-		GDELTDailyDownloadDB gdeltDownload = new GDELTDailyDownloadDB();
+		GDELTDailyDownloadResource gdeltDownload = new GDELTDailyDownloadResource();
 
 		gdeltDownload.setDownloadedSuccessfully( Boolean.TRUE );
 		gdeltDownload.setRecordsFailed( recordsFailed );
