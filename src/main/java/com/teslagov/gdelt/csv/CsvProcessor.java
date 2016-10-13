@@ -191,64 +191,58 @@ public class CsvProcessor
 			CSVRecord record = records.get( i );
 			String eventRootCode = record.get( values.get( "EventRootCode" ) );
 
-			// TODO filtering should not happen here; the caller should worry about that
-			if ( !GDELTCameoDownloadCodes.containsCameo( eventRootCode ) )
+
+			GDELTEventDB gdeltEvent;
+			try
 			{
-				logger.debug( "Not parsing record with cameo code: {}... not one of our GDELTCameoDownloadCodes of interest", eventRootCode );
+				gdeltEvent = GDELTEventFromCsvRecordFactory.create( record, values );
 			}
-			else
+			catch ( Exception e )
 			{
-				GDELTEventDB gdeltEvent;
-				try {
-					gdeltEvent = GDELTEventFromCsvRecordFactory.create( record, values );
-				}
-				catch ( Exception e )
-				{
-					recordsFailed++;
-					continue;
-				}
+				recordsFailed++;
+				continue;
+			}
 
-				if ( values.get( "SOURCEURL" ) != null )
-				{
-					String url = record.get( values.get( "SOURCEURL" ) );
-					GDELTURLDB urlObj = urlRunningCache.get( url );
+			// TODO clean up
+			if ( values.get( "SOURCEURL" ) != null )
+			{
+				String url = record.get( values.get( "SOURCEURL" ) );
+				GDELTURLDB urlObj = urlRunningCache.get( url );
 
-					if ( urlObj == null )
-					{
-						List<GDELTURLDB> urlList = new ArrayList<>();
-						// TODO
+				if ( urlObj == null )
+				{
+					List<GDELTURLDB> urlList = new ArrayList<>();
 //								session.createQuery( "FROM GDELTURLDB WHERE SOURCEURL = :sourceurl" ).setParameter( "sourceurl", url ).list();
 
-						if ( urlList.size() > 0 )
+					if ( urlList.size() > 0 )
+					{
+						for ( GDELTURLDB rec : urlList )
 						{
-							for ( GDELTURLDB rec : urlList )
+							if ( url.equals( rec.getSOURCEURL() ) )
 							{
-								if ( url.equals( rec.getSOURCEURL() ) )
-								{
-									gdeltEvent.setSOURCEURL( rec );
-									urlObj = rec;
-								}
+								gdeltEvent.setSOURCEURL( rec );
+								urlObj = rec;
 							}
 						}
 					}
-					else // if object in running cache use it.
-					{
-						gdeltEvent.setSOURCEURL( urlObj );
-					}
-
-					if ( urlObj == null ) // not in cache or database create it
-					{ // if created a new url object but in cache
-						urlObj = new GDELTURLDB( url );
-						// TODO
-//							session.save( urlObj );
-						gdeltEvent.setSOURCEURL( urlObj );
-						urlRunningCache.put( url, urlObj );
-					}
+				}
+				else // if object in running cache use it.
+				{
+					gdeltEvent.setSOURCEURL( urlObj );
 				}
 
-				recordsLoaded = recordsLoaded + 1;
-				gdeltEventList.add( gdeltEvent );
+				if ( urlObj == null ) // not in cache or database create it
+				{ // if created a new url object but in cache
+					urlObj = new GDELTURLDB( url );
+					// TODO
+//							session.save( urlObj );
+					gdeltEvent.setSOURCEURL( urlObj );
+					urlRunningCache.put( url, urlObj );
+				}
 			}
+
+			recordsLoaded = recordsLoaded + 1;
+			gdeltEventList.add( gdeltEvent );
 		}
 
 		logger.debug( "Went through {} records", records.size() );

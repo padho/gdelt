@@ -24,16 +24,16 @@ public enum GDELTCameoDownloadCodes
 		this.rootCameoCode = cameoCode;
 	}
 
-	public static boolean containsCameo( String root )
+	public static boolean containsCameo( String eventRootCode )
 	{
-		return root.equals( EngageInMaterialCooperation.getRootCameoCode() ) ||
-			root.equals( ProvideAid.getRootCameoCode() ) ||
-			root.equals( Threaten.getRootCameoCode() ) ||
-			root.equals( Protest.getRootCameoCode() ) ||
-			root.equals( Coerce.getRootCameoCode() ) ||
-			root.equals( Assault.getRootCameoCode() ) ||
-			root.equals( Fight.getRootCameoCode() ) ||
-			root.equals( EngageInUnconventionalMassViolence.getRootCameoCode() );
+		return eventRootCode.equals( EngageInMaterialCooperation.getRootCameoCode() ) ||
+			eventRootCode.equals( ProvideAid.getRootCameoCode() ) ||
+			eventRootCode.equals( Threaten.getRootCameoCode() ) ||
+			eventRootCode.equals( Protest.getRootCameoCode() ) ||
+			eventRootCode.equals( Coerce.getRootCameoCode() ) ||
+			eventRootCode.equals( Assault.getRootCameoCode() ) ||
+			eventRootCode.equals( Fight.getRootCameoCode() ) ||
+			eventRootCode.equals( EngageInUnconventionalMassViolence.getRootCameoCode() );
 	}
 
 	private final String rootCameoCode;
