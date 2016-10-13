@@ -195,7 +195,7 @@ public class CsvProcessor
 
 		for ( int i = 0; i < records.size(); i++ )
 		{
-			logger.debug( "Parsing record {}", i );
+			logger.trace( "Parsing record {}", i );
 			CSVRecord record = records.get( i );
 			String eventRootCode = record.get( values.get( "EventRootCode" ) );
 

@@ -37,7 +37,7 @@ public class GDELTEventFromCsvRecordFactory
 		String actor2GeoCountryCode = record.get( values.get( "Actor2Geo_CountryCode" ) );
 		gdeltEvent.setActor2Geo_CountryCode( actor2GeoCountryCode );
 
-		logger.debug( "Parsing fields..." );
+		logger.trace( "Parsing fields..." );
 		gdeltEvent.setGLOBALEVENTID( Integer.parseInt( record.get( values.get( "GLOBALEVENTID" ) ) ) );
 
 		String sqldate = record.get( values.get( "SQLDATE" ) );
