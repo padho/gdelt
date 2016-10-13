@@ -8,7 +8,7 @@ public enum GDELTCameoDownloadCodes
 	EngageInMaterialCooperation( "06" ),
 	ProvideAid( "07" ),
 	Threaten( "13" ),
-	Portest( "14" ),
+	Protest( "14" ),
 	Coerce( "17" ),
 	Assault( "18" ),
 	Fight( "19" ),
@@ -29,7 +29,7 @@ public enum GDELTCameoDownloadCodes
 		return root.equals( EngageInMaterialCooperation.getRootCameoCode() ) ||
 			root.equals( ProvideAid.getRootCameoCode() ) ||
 			root.equals( Threaten.getRootCameoCode() ) ||
-			root.equals( Portest.getRootCameoCode() ) ||
+			root.equals( Protest.getRootCameoCode() ) ||
 			root.equals( Coerce.getRootCameoCode() ) ||
 			root.equals( Assault.getRootCameoCode() ) ||
 			root.equals( Fight.getRootCameoCode() ) ||
