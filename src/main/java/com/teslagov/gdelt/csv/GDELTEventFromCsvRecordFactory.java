@@ -29,16 +29,16 @@ public class GDELTEventFromCsvRecordFactory
 		gdeltEvent = new GDELTEventDB();
 
 		String actionGeoCountryCode = record.get( values.get( "ActionGeo_CountryCode" ) );
-		gdeltEvent.setActionGeo_CountryCode( actionGeoCountryCode );
+		gdeltEvent.setActionGeoCountryCode( actionGeoCountryCode );
 
 		String actor1GeoCountryCode = record.get( values.get( "Actor1Geo_CountryCode" ) );
-		gdeltEvent.setActor1Geo_CountryCode( actor1GeoCountryCode );
+		gdeltEvent.setActor1GeoCountryCode( actor1GeoCountryCode );
 
 		String actor2GeoCountryCode = record.get( values.get( "Actor2Geo_CountryCode" ) );
-		gdeltEvent.setActor2Geo_CountryCode( actor2GeoCountryCode );
+		gdeltEvent.setActor2GeoCountryCode( actor2GeoCountryCode );
 
 		logger.trace( "Parsing fields..." );
-		gdeltEvent.setGLOBALEVENTID( Integer.parseInt( record.get( values.get( "GLOBALEVENTID" ) ) ) );
+		gdeltEvent.setGlobalEventID( Integer.parseInt( record.get( values.get( "GLOBALEVENTID" ) ) ) );
 
 		String sqldate = record.get( values.get( "SQLDATE" ) );
 
@@ -133,16 +133,16 @@ public class GDELTEventFromCsvRecordFactory
 
 		if ( record.get( values.get( "Actor1Geo_Type" ) ).length() > 0 )
 		{
-			gdeltEvent.setActor1Geo_Type( Integer.parseInt( record.get( values.get( "Actor1Geo_Type" ) ) ) );
+			gdeltEvent.setActor1GeoType( Integer.parseInt( record.get( values.get( "Actor1Geo_Type" ) ) ) );
 		}
 
-		gdeltEvent.setActor1Geo_FullName( record.get( values.get( "Actor1Geo_FullName" ) ) );
+		gdeltEvent.setActor1GeoFullName( record.get( values.get( "Actor1Geo_FullName" ) ) );
 
-		gdeltEvent.setActor1Geo_ADM1Code( record.get( values.get( "Actor1Geo_ADM1Code" ) ) );
+		gdeltEvent.setActor1GeoADM1Code( record.get( values.get( "Actor1Geo_ADM1Code" ) ) );
 
 		if ( values.get( "Actor1Geo_ADM2Code" ) != null )
 		{
-			gdeltEvent.setActor1Geo_ADM2Code( record.get( values.get( "Actor1Geo_ADM2Code" ) ) );
+			gdeltEvent.setActor1GeoADM2Code( record.get( values.get( "Actor1Geo_ADM2Code" ) ) );
 		}
 
 		Double latitude, longitude;
@@ -154,24 +154,24 @@ public class GDELTEventFromCsvRecordFactory
 
 			longitude = Double.parseDouble( record.get( values.get( "Actor1Geo_Long" ) ) );
 
-			gdeltEvent.setActor1Geo_Lat( latitude );
-			gdeltEvent.setActor1Geo_Long( longitude );
+			gdeltEvent.setActor1GeoLat( latitude );
+			gdeltEvent.setActor1GeoLong( longitude );
 		}
 
-		gdeltEvent.setActor1Geo_FeatureID( record.get( values.get( "Actor1Geo_FeatureID" ) ) );
+		gdeltEvent.setActor1GeoFeatureID( record.get( values.get( "Actor1Geo_FeatureID" ) ) );
 
 		if ( record.get( values.get( "Actor2Geo_Type" ) ).length() > 0 )
 		{
-			gdeltEvent.setActor2Geo_Type( Integer.parseInt( record.get( values.get( "Actor2Geo_Type" ) ) ) );
+			gdeltEvent.setActor2GeoType( Integer.parseInt( record.get( values.get( "Actor2Geo_Type" ) ) ) );
 		}
 
-		gdeltEvent.setActor2Geo_FullName( record.get( values.get( "Actor2Geo_FullName" ) ) );
+		gdeltEvent.setActor2GeoFullName( record.get( values.get( "Actor2Geo_FullName" ) ) );
 
-		gdeltEvent.setActor2Geo_ADM1Code( record.get( values.get( "Actor2Geo_ADM1Code" ) ) );
+		gdeltEvent.setActor2GeoADM1Code( record.get( values.get( "Actor2Geo_ADM1Code" ) ) );
 
 		if ( values.get( "Actor2Geo_ADM2Code" ) != null )
 		{
-			gdeltEvent.setActor2Geo_ADM2Code( record.get( values.get( "Actor2Geo_ADM2Code" ) ) );
+			gdeltEvent.setActor2GeoADM2Code( record.get( values.get( "Actor2Geo_ADM2Code" ) ) );
 		}
 
 		if ( record.get( values.get( "Actor2Geo_Lat" ) ).length() > 0
@@ -181,21 +181,21 @@ public class GDELTEventFromCsvRecordFactory
 
 			longitude = Double.parseDouble( record.get( values.get( "Actor2Geo_Long" ) ) );
 
-			gdeltEvent.setActor2Geo_Lat( latitude );
-			gdeltEvent.setActor2Geo_Long( longitude );
+			gdeltEvent.setActor2GeoLat( latitude );
+			gdeltEvent.setActor2GeoLong( longitude );
 		}
 
-		gdeltEvent.setActor2Geo_FeatureID( record.get( values.get( "Actor2Geo_FeatureID" ) ) );
+		gdeltEvent.setActor2GeoFeatureID( record.get( values.get( "Actor2Geo_FeatureID" ) ) );
 
-		gdeltEvent.setActionGeo_Type( Integer.parseInt( record.get( values.get( "ActionGeo_Type" ) ) ) );
+		gdeltEvent.setActionGeoType( Integer.parseInt( record.get( values.get( "ActionGeo_Type" ) ) ) );
 
-		gdeltEvent.setActionGeo_FullName( record.get( values.get( "ActionGeo_FullName" ) ) );
+		gdeltEvent.setActionGeoFullName( record.get( values.get( "ActionGeo_FullName" ) ) );
 
-		gdeltEvent.setActionGeo_ADM1Code( record.get( values.get( "ActionGeo_ADM1Code" ) ) );
+		gdeltEvent.setActionGeoADM1Code( record.get( values.get( "ActionGeo_ADM1Code" ) ) );
 
 		if ( values.get( "ActionGeo_ADM2Code" ) != null )
 		{
-			gdeltEvent.setActionGeo_ADM2Code( record.get( values.get( "ActionGeo_ADM2Code" ) ) );
+			gdeltEvent.setActionGeoADM2Code( record.get( values.get( "ActionGeo_ADM2Code" ) ) );
 		}
 
 		if ( record.get( values.get( "ActionGeo_Lat" ) ).length() > 0
@@ -205,13 +205,13 @@ public class GDELTEventFromCsvRecordFactory
 
 			longitude = Double.parseDouble( record.get( values.get( "ActionGeo_Long" ) ) );
 
-			gdeltEvent.setActionGeo_Lat( latitude );
-			gdeltEvent.setActionGeo_Long( longitude );
+			gdeltEvent.setActionGeoLat( latitude );
+			gdeltEvent.setActionGeoLong( longitude );
 		}
 
-		gdeltEvent.setActionGeo_FeatureID( record.get( values.get( "ActionGeo_FeatureID" ) ) );
+		gdeltEvent.setActionGeoFeatureID( record.get( values.get( "ActionGeo_FeatureID" ) ) );
 
-		gdeltEvent.setDATEADDED( record.get( values.get( "DATEADDED" ) ) );
+		gdeltEvent.setDateAdded( record.get( values.get( "DATEADDED" ) ) );
 
 		return gdeltEvent;
 	}

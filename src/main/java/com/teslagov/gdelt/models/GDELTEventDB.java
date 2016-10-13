@@ -13,123 +13,119 @@ import java.util.Date;
 @Data
 public class GDELTEventDB implements Serializable
 {
-	private int GLOBALEVENTID;
+	private int globalEventID;
 
-	private String Actor1Code;
+	private String actor1Code;
 
-	private String Actor1Name;
+	private String actor1Name;
 
-	private String Actor1CountryCode;
+	private String actor1CountryCode;
 
-	private String Actor1KnownGroupCode;
+	private String actor1KnownGroupCode;
 
-	private String Actor1EthnicCode;
+	private String actor1EthnicCode;
 
-	private String Actor1Religion1Code;
+	private String actor1Religion1Code;
 
-	private String Actor1Religion2Code;
+	private String actor1Religion2Code;
 
-	private String Actor1Type1Code;
+	private String actor1Type1Code;
 
-	private String Actor1Type2Code;
+	private String actor1Type2Code;
 
-	private String Actor1Type3Code;
+	private String actor1Type3Code;
 
-	private String Actor2Code;
+	private String actor2Code;
 
-	private String Actor2Name;
+	private String actor2Name;
 
-	private String Actor2CountryCode;
+	private String actor2CountryCode;
 
-	private String Actor2KnownGroupCode;
+	private String actor2KnownGroupCode;
 
-	private String Actor2EthnicCode;
+	private String actor2EthnicCode;
 
-	private String Actor2Religion1Code;
+	private String actor2Religion1Code;
 
-	private String Actor2Religion2Code;
+	private String actor2Religion2Code;
 
-	private String Actor2Type1Code;
+	private String actor2Type1Code;
 
-	private String Actor2Type2Code;
+	private String actor2Type2Code;
 
-	private String Actor2Type3Code;
+	private String actor2Type3Code;
 
-	private Boolean IsRootEvent;
+	private Boolean isRootEvent;
 
-	private String EventCode;
+	private String eventCode;
 
-	private String EventBaseCode;
+	private String eventBaseCode;
 
-	private String EventRootCode;
+	private String eventRootCode;
 
-	private int QuadClass;
+	private int quadClass;
 
-	private Double GoldsteinScale;
+	private Double goldsteinScale;
 
-	private int NumMentions;
+	private int numMentions;
 
-	private int NumSources;
+	private int numSources;
 
-	private int NumArticles;
+	private int numArticles;
 
-	private Double AvgTone;
+	private Double avgTone;
 
-	private int Actor1Geo_Type;
+	private int actor1GeoType;
 
-	private String Actor1Geo_FullName;
+	private String actor1GeoFullName;
 
-	private String Actor1Geo_CountryCode;
+	private String actor1GeoCountryCode;
 
-	private String Actor1Geo_ADM1Code;
+	private String actor1GeoADM1Code;
 
-	private String Actor1Geo_ADM2Code;
+	private String actor1GeoADM2Code;
 
-	private double Actor1Geo_Lat;
+	private double actor1GeoLat;
 
-	private double Actor1Geo_Long;
+	private double actor1GeoLong;
 
-	private String Actor1Geo_FeatureID;
+	private String actor1GeoFeatureID;
 
-	private int Actor2Geo_Type;
+	private int actor2GeoType;
 
-	private String Actor2Geo_FullName;
+	private String actor2GeoFullName;
 
-	private String Actor2Geo_CountryCode;
+	private String actor2GeoCountryCode;
 
-	private String Actor2Geo_ADM1Code;
+	private String actor2GeoADM1Code;
 
-	private String Actor2Geo_ADM2Code;
+	private String actor2GeoADM2Code;
 
-	private double Actor2Geo_Lat;
+	private double actor2GeoLat;
 
-	private double Actor2Geo_Long;
+	private double actor2GeoLong;
 
-	private String Actor2Geo_FeatureID;
+	private String actor2GeoFeatureID;
 
-	private int ActionGeo_Type;
+	private int actionGeoType;
 
-	private String ActionGeo_FullName;
+	private String actionGeoFullName;
 
-	private String ActionGeo_CountryCode;
+	private String actionGeoCountryCode;
 
-	private String ActionGeo_ADM1Code;
+	private String actionGeoADM1Code;
 
-	private String ActionGeo_ADM2Code;
+	private String actionGeoADM2Code;
 
-	private double ActionGeo_Lat;
+	private double actionGeoLat;
 
-	private double ActionGeo_Long;
+	private double actionGeoLong;
 
-	private String ActionGeo_FeatureID;
+	private String actionGeoFeatureID;
 
-	private String DATEADDED;
+	private String dateAdded;
 
-	private String SOURCEURL;
+	private String sourceUrl;
 
 	private Date eventDate;
-
-	private Boolean ignoreCompletely = false;
-
-	private Date lastmodified;
 }

@@ -206,7 +206,7 @@ public class CsvProcessor
 				continue;
 			}
 
-			gdeltEvent.setSOURCEURL( record.get( values.get( "SOURCEURL" ) ) );
+			gdeltEvent.setSourceUrl( record.get( values.get( "SOURCEURL" ) ) );
 
 			recordsLoaded = recordsLoaded + 1;
 			gdeltEventList.add( gdeltEvent );
