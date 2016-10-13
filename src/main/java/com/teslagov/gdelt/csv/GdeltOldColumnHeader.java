@@ -2,6 +2,7 @@ package com.teslagov.gdelt.csv;
 
 /**
  * The only difference between this and {@link Gdelt1_0ColumnHeader} is that this lacks SOURCEURL.
+ *
  * @author Kevin Chen
  */
 public enum GdeltOldColumnHeader

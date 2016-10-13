@@ -13,7 +13,7 @@ import java.io.IOException;
 
 /**
  * Retrieves the text at {@code http://data.gdeltproject.org/gdelt_v2/lastupdate.txt}.
- *
+ * <p>
  * <pre>
  *     {@code
  * 175564 7bf8faa47ede943fa1ba4b78950915cd http://data.gdeltproject.org/gdeltv2/20161013141500.export.CSV.zip
@@ -21,6 +21,7 @@ import java.io.IOException;
  * 16452276 5adbe936332ff09d29ae62430eb8eb3f http://data.gdeltproject.org/gdeltv2/20161013141500.gkg.csv.zip
  *     }
  * </pre>
+ *
  * @author Kevin Chen
  */
 public class GdeltLastUpdateFetcher
