@@ -3,7 +3,6 @@ package com.teslagov.gdelt.csv;
 import com.teslagov.gdelt.GDELTException;
 import com.teslagov.gdelt.models.GDELTDailyDownloadDB;
 import com.teslagov.gdelt.models.GDELTEventDB;
-import com.teslagov.gdelt.models.GDELTURLDB;
 import lombok.Data;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -159,9 +158,9 @@ public class CsvProcessor
 					map.put( values[i], i );
 				}
 
-				logger.debug( "**********  Before process Events" );
+				logger.debug( "Process GDELT events..." );
 				GDELTReturnResult result = processEvents( csvRecords, map );
-				logger.debug( "***********  After process Events" );
+				logger.debug( "Finished processing GDELT events" );
 
 				// add to the main result list
 				gdeltEventList.addAll( result.getGdeltEventList() );
@@ -191,14 +190,10 @@ public class CsvProcessor
 		int recordsLoaded = 0;
 		int recordsFailed = 0;
 
-		Map<String, GDELTURLDB> urlRunningCache = new HashMap<>();
-
 		for ( int i = 0; i < records.size(); i++ )
 		{
 			logger.trace( "Parsing record {}", i );
 			CSVRecord record = records.get( i );
-			String eventRootCode = record.get( values.get( "EventRootCode" ) );
-
 
 			GDELTEventDB gdeltEvent;
 			try
@@ -211,43 +206,7 @@ public class CsvProcessor
 				continue;
 			}
 
-			// TODO clean up
-			if ( values.get( "SOURCEURL" ) != null )
-			{
-				String url = record.get( values.get( "SOURCEURL" ) );
-				GDELTURLDB urlObj = urlRunningCache.get( url );
-
-				if ( urlObj == null )
-				{
-					List<GDELTURLDB> urlList = new ArrayList<>();
-//								session.createQuery( "FROM GDELTURLDB WHERE SOURCEURL = :sourceurl" ).setParameter( "sourceurl", url ).list();
-
-					if ( urlList.size() > 0 )
-					{
-						for ( GDELTURLDB rec : urlList )
-						{
-							if ( url.equals( rec.getSOURCEURL() ) )
-							{
-								gdeltEvent.setSOURCEURL( rec );
-								urlObj = rec;
-							}
-						}
-					}
-				}
-				else // if object in running cache use it.
-				{
-					gdeltEvent.setSOURCEURL( urlObj );
-				}
-
-				if ( urlObj == null ) // not in cache or database create it
-				{ // if created a new url object but in cache
-					urlObj = new GDELTURLDB( url );
-					// TODO
-//							session.save( urlObj );
-					gdeltEvent.setSOURCEURL( urlObj );
-					urlRunningCache.put( url, urlObj );
-				}
-			}
+			gdeltEvent.setSOURCEURL( record.get( values.get( "SOURCEURL" ) ) );
 
 			recordsLoaded = recordsLoaded + 1;
 			gdeltEventList.add( gdeltEvent );

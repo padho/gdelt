@@ -125,7 +125,7 @@ public class GDELTEventDB implements Serializable
 
 	private String DATEADDED;
 
-	private GDELTURLDB SOURCEURL;
+	private String SOURCEURL;
 
 	private Date eventDate;
 
