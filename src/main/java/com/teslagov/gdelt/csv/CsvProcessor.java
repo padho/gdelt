@@ -3,7 +3,6 @@ package com.teslagov.gdelt.csv;
 import com.teslagov.gdelt.GdeltException;
 import com.teslagov.gdelt.models.GdeltDailyDownloadResource;
 import com.teslagov.gdelt.models.GdeltEventResource;
-import lombok.Data;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -33,14 +32,6 @@ import java.util.Map;
 public class CsvProcessor
 {
 	private static final Logger logger = LoggerFactory.getLogger( CsvProcessor.class );
-
-	@Data
-	public class GDELTReturnResult
-	{
-		GdeltDailyDownloadResource downloadResult;
-
-		List<GdeltEventResource> gdeltEventList;
-	}
 
 	private CSVParser createCvsParser( Reader reader, CSVFormat csvFileFormat )
 	{
