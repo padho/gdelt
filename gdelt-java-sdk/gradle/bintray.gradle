@@ -83,4 +83,4 @@ task echoProps << {
     println "inceptionYear: ${inceptionYear.toString()}"
 }
 
-bintrayUpload.dependsOn echoArcProps
+bintrayUpload.dependsOn echoProps

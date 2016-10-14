@@ -13,7 +13,7 @@ def getVersionWithoutDirtySuffix = { ->
 
 group = 'com.teslagov'
 version = getVersionWithoutDirtySuffix()
-description = """A Java SDK for GDELT"""
+description = """GDELT Java SDK"""
 
 subprojects {
   apply plugin: 'java'
