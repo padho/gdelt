@@ -1,6 +1,29 @@
 group 'com.teslagov'
 version '1.0-SNAPSHOT'
 
+subprojects {
+  apply plugin: 'java'
+  sourceCompatibility = 1.8
+}
+
+ext {
+  githubOrgName = 'TeslaGov'
+  githubRepoName = 'gdelt'
+  inceptionYear = 2016
+
+  bintrayUser = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+  bintrayApiKey = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+  bintrayOrgName = 'teslagov'
+
+  ossrhUser = project.property('nexusUsername')
+  ossrhPass = project.property('nexusPassword')
+  passPhrase = project.property('signing.password')
+  labels = ['gdelt']
+
+  slf4jVersion = "1.7.21"
+  junitVersion = '4.12'
+}
+
 task wrapper(type: Wrapper) {
   gradleVersion = '3.0'
   distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
