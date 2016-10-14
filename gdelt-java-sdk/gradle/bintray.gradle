@@ -9,7 +9,7 @@ bintray {
     publications = ['MyPublication']
 //    configurations = ['archives']
 
-    dryRun = true
+    dryRun = false
 
     pkg {
         repo = project.bintrayRepoName
