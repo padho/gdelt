@@ -6,7 +6,8 @@ repositories {
 }
 
 ext {
-    bintrayRepoName = project.name
+    bintrayRepoName = 'gdelt'
+    groupId = "${rootProject.group}.${bintrayRepoName}"
     bintrayPackageName = project.name
 }
 

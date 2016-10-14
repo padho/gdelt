@@ -53,6 +53,7 @@ task echoProps << {
     println "       Name: $project.name"
     println "    Version: $project.version"
     println "Description: $project.description"
+    println "   Group ID: $project.groupId"
     println ""
     println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
     println "  = = = = = = = = = = GITHUB PROPERTIES = = = = = = = = =  "

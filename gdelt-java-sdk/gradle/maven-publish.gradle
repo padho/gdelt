@@ -18,7 +18,7 @@ publishing {
         MyPublication(MavenPublication) {
             // telling gradle to publish project's jar archive
             from components.java
-            groupId rootProject.group + "." + rootProject.name
+            groupId project.groupId
             artifactId project.name
             version project.version
 
