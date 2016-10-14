@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Kevin Chen
@@ -71,8 +72,10 @@ public class GdeltApiTest
 	public void testDownload()
 	{
 		// Download LastUpdate CSV
-		File destinationDir = new File( "gdelt" );
-		gdeltApi.downloadLastUpdate( destinationDir );
+		File destinationDir = new File( System.getProperty( "user.home" ) + File.separator + "gdelt" );
+		File csvFile = gdeltApi.downloadLastUpdate( destinationDir );
+		assertNotNull( csvFile );
+		logger.info( "Download a GDELT CSV file to: {}", csvFile.getAbsolutePath() );
 	}
 
 	@Test

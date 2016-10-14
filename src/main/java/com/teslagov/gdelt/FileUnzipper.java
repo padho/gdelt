@@ -21,14 +21,14 @@ public class FileUnzipper
 {
 	private static final Logger logger = LoggerFactory.getLogger( FileUnzipper.class );
 
-	public static Boolean unzipFile( String destinationFolder, String zipFile )
+	public static Boolean unzipFile( File outputDirectory, String zipFile )
 	{
-		File directory = new File( destinationFolder );
+		String destinationFolder = outputDirectory.getAbsolutePath();
 
 		// if the output directory doesn't exist, create it
-		if ( !directory.exists() )
+		if ( !outputDirectory.exists() )
 		{
-			directory.mkdirs();
+			outputDirectory.mkdirs();
 		}
 
 		try (

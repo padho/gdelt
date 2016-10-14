@@ -26,69 +26,58 @@ public class GdeltLastUpdateDownloader
 		}
 	}
 
-	public String downloadGDELTFile( HttpClient httpClient, File directory, String csvLocation, boolean deleteZipFileAfterDownload )
+	/**
+	 * Downloads the zipped csv and saves it in a directory of your choosing, as {@code <DATE>.export.CSV.zip}
+	 *
+	 * @param httpClient
+	 * @param directory
+	 * @param lastUpdateUrl
+	 * @return
+	 */
+	public File downloadGDELTZipFile( HttpClient httpClient, File directory, String lastUpdateUrl )
 	{
 		ensureDirectoryExists( directory );
 
-		String fileDestination = directory.getName();
-		logger.debug( "file destination: {}", fileDestination );
-
-		String zipFilename = null;
-
-		if ( UrlValidator.isValid( csvLocation ) )
+		if ( lastUpdateUrl == null )
 		{
-			zipFilename = csvLocation.substring( csvLocation.lastIndexOf( "/" ) + 1 );
+			throw new IllegalArgumentException( "lastUpdateUrl cannot be null" );
 		}
 
-		if ( zipFilename == null )
+		String fileDestination = directory.getAbsolutePath();
+
+		logger.debug( "Downloading zipped CSV file to {}", fileDestination );
+
+		if ( !UrlValidator.isValid( lastUpdateUrl ) )
 		{
+			logger.error( "GDELT url is invalid: {}", lastUpdateUrl );
 			return null;
 		}
 
-		String unzipFilename = zipFilename.substring( 0, zipFilename.lastIndexOf( "." ) );
+		logger.debug( "Download zipped CSV file from: {}", lastUpdateUrl );
 
-		logger.debug( "dest dir abs path: {}", directory.getAbsolutePath() );
+		// e.g,. 20161014131500.export.CSV.zip
+		String zipFilename = lastUpdateUrl.substring( lastUpdateUrl.lastIndexOf( "/" ) + 1 );
 
-		File zipFile = new File( directory.getAbsolutePath() + File.separator + zipFilename );
+		logger.debug( "Retrieving zip file: {}", zipFilename );
 
-		boolean downloadStatus = downloadFile( httpClient, csvLocation, zipFile );
+		File zipFile = new File( fileDestination + File.separator + zipFilename );
 
-		if ( downloadStatus )
-		{
-			File fileTemp = new File( fileDestination + zipFilename );
+		boolean downloadStatus = downloadFile( httpClient, lastUpdateUrl, zipFile );
 
-			String fullPath = fileDestination + zipFilename;
-
-			try
-			{
-				Boolean unzipStatus;
-
-				unzipStatus = FileUnzipper.unzipFile( fileDestination, fullPath );
-
-				if ( unzipStatus )
-				{
-					return fileDestination + unzipFilename;
-				}
-			}
-			catch ( Exception ex )
-			{
-				logger.error( "Exception while unzipping file: \"{}\"", fullPath, ex );
-			}
-			finally
-			{
-				if ( deleteZipFileAfterDownload && fileTemp.exists() )
-				{
-					fileTemp.delete();
-				}
-			}
-		}
-
-		return null;
+		return zipFile;
 	}
 
-	boolean downloadFile( HttpClient httpClient, String fileURL, File zipFile )
+	/**
+	 * Returns the file the zipped csv was download to.
+	 *
+	 * @param httpClient
+	 * @param lastUpdateUrl
+	 * @param zipFile
+	 * @return
+	 */
+	boolean downloadFile( HttpClient httpClient, String lastUpdateUrl, File zipFile )
 	{
-		HttpGet httpGet = HttpGetter.get( fileURL );
+		HttpGet httpGet = HttpGetter.get( lastUpdateUrl );
 		HttpResponse response = null;
 		try
 		{
