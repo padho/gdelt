@@ -2,11 +2,16 @@ package com.teslagov.gdelt;
 
 import com.teslagov.gdelt.csv.GDELTReturnResult;
 import com.teslagov.gdelt.models.GdeltEventResource;
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -54,31 +59,43 @@ public class GdeltApiTest
 		private final String rootCameoCode;
 	}
 
-	@Test
-	public void test()
+	private GdeltApi gdeltApi;
+
+	@Before
+	public void init()
 	{
-		GdeltApi gdeltApi = new GdeltApi();
+		gdeltApi = new GdeltApi();
+	}
 
+	@Test
+	public void testDownload()
+	{
 		// Download LastUpdate CSV
-//		File destinationDir = new File( "gdelt" );
-//		gdeltApi.downloadLastUpdate( destinationDir );
+		File destinationDir = new File( "gdelt" );
+		gdeltApi.downloadLastUpdate( destinationDir );
+	}
 
-
+	@Test
+	public void testParseCsvInputStream() throws IOException
+	{
 		// TODO csv processing works with file but not with InputStream
-//		InputStream inputStream = GdeltApiTest.class.getClassLoader().getResourceAsStream( "20161013151500.export.CSV" );
-//		try
-//		{
-//			logger.info( "Input Stream: {}", IOUtils.toString( inputStream, StandardCharsets.UTF_8 ) );
-//		}
-//		catch ( IOException e )
-//		{
-//			e.printStackTrace();
-//		}
+		InputStream inputStream = GdeltApiTest.class.getClassLoader().getResourceAsStream( "20161013151500.export.CSV" );
+		logger.info( "Input Stream: {}", IOUtils.toString( inputStream, StandardCharsets.UTF_8 ) );
+		GDELTReturnResult gdeltReturnResult = gdeltApi.parseCsv( inputStream );
+		assertCsv( gdeltReturnResult );
+	}
 
-		long start, end;
-
+	@Test
+	public void testParseCsvFile()
+	{
 		File file = new File( GdeltApiTest.class.getClassLoader().getResource( "20161013151500.export.CSV" ).getFile() );
 		GDELTReturnResult gdeltReturnResult = gdeltApi.parseCsv( file );
+		assertCsv( gdeltReturnResult );
+	}
+
+	private void assertCsv( GDELTReturnResult gdeltReturnResult )
+	{
+		long start, end;
 		gdeltReturnResult.getGdeltEventList().forEach( e -> logger.trace( e.toString() ) );
 
 		List<GdeltEventResource> gdeltEvents = gdeltReturnResult.getGdeltEventList();

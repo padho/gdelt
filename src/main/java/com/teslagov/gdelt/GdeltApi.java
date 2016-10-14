@@ -6,6 +6,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * @author Kevin Chen
@@ -49,12 +50,17 @@ public class GdeltApi
 		String lastUpdateUrl = gdeltLastUpdateFetcher.getGDELTLastUpdate( httpClient, gdeltConfiguration );
 
 		// Step 2: download zipped csv and unzip
-		GdeltLastUpdateDownloader lastUpdateDownloader = new GdeltLastUpdateDownloader();
-		return lastUpdateDownloader.downloadGDELTFile( httpClient, destinationDir, lastUpdateUrl, false );
+		return gdeltLastUpdateDownloader.downloadGDELTFile( httpClient, destinationDir, lastUpdateUrl, false );
 	}
 
 	public GDELTReturnResult parseCsv( File file )
 	{
 		return csvProcessor.processCSV( file );
+	}
+
+	// TODO make public once the test passes
+	GDELTReturnResult parseCsv( InputStream inputStream )
+	{
+		return csvProcessor.processCSV( inputStream );
 	}
 }
