@@ -59,6 +59,17 @@ public class GdeltApi
 	}
 
 	/**
+	 * Downloads a GDELT CSV file (unzipped) to {@code ~/gdelt}. This method does not delete the zip file afterward.
+	 *
+	 * @return a GDELT CSV file.
+	 */
+	public File downloadLastUpdate()
+	{
+		File destinationDir = new File( System.getProperty( "user.home" ) + File.separator + "gdelt" );
+		return downloadLastUpdate( destinationDir, true, false );
+	}
+
+	/**
 	 * Downloads a GDELT CSV file (zipped or unzipped).
 	 *
 	 * @param destinationDir The directory to download files to.

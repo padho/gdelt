@@ -72,8 +72,7 @@ public class GdeltApiTest
 	public void testDownload()
 	{
 		// Download LastUpdate CSV
-		File destinationDir = new File( System.getProperty( "user.home" ) + File.separator + "gdelt" );
-		File csvFile = gdeltApi.downloadLastUpdate( destinationDir );
+		File csvFile = gdeltApi.downloadLastUpdate();
 		assertNotNull( csvFile );
 		logger.info( "Download a GDELT CSV file to: {}", csvFile.getAbsolutePath() );
 	}
