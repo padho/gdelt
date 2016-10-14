@@ -1,5 +1,19 @@
-group 'com.teslagov'
-version '1.0-SNAPSHOT'
+plugins {
+  id "com.jfrog.bintray" version "1.6"
+  id 'com.palantir.git-version' version '0.5.2'
+}
+
+def getVersionWithoutDirtySuffix = { ->
+  def lastTag = versionDetails().lastTag
+  if (lastTag.endsWith(".dirty")) {
+    return lastTag.substring(0, lastTag.indexOf(".dirty"));
+  }
+  return lastTag;
+}
+
+group = 'com.teslagov'
+version = getVersionWithoutDirtySuffix()
+description = """A Java SDK for GDELT"""
 
 subprojects {
   apply plugin: 'java'

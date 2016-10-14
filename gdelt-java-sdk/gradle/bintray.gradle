@@ -1,0 +1,86 @@
+apply plugin: 'com.jfrog.bintray'
+bintray {
+    // inside ~/.gradle/gradle.properties I have
+    // bintrayUser=kevinmichaelchen
+    // bintrayApiKey=MY_API_KEY
+    user = project.bintrayUser
+    key = project.bintrayApiKey
+
+    publications = ['MyPublication']
+//    configurations = ['archives']
+
+    dryRun = true
+
+    pkg {
+        repo = project.bintrayRepoName
+        name = project.bintrayPackageName
+        userOrg = project.bintrayOrgName
+        licenses = ['MIT']
+        vcsUrl = "https://github.com/${githubOrgName}/${githubRepoName}.git"
+        labels = project.labels
+        publicDownloadNumbers = true
+        version {
+            released = new Date()
+            desc = "${rootProject.githubOrgName} ${project.name} ${rootProject.version}"
+
+            gpg {
+                sign = false // Determines whether to GPG sign the files. The default is false
+//                passphrase = project.passPhrase // Optional. The passphrase for GPG signing
+            }
+            // Optional configuration for Maven Central sync of the version
+//            mavenCentralSync {
+//                sync = true // Optional (true by default). Determines whether to sync the version to Maven Central.
+//                user = project.ossrhUser // OSS user token
+//                password = project.ossrhPass // OSS user password
+//                close = '1' // Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by putting 0 as value) and release the version manually.
+//            }
+        }
+    }
+}
+
+// test for sanity
+task echoProps << {
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "  = = = = = = = = = = ROOT PROJECT PROPERTIES = = = = = =  "
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "       Name: $rootProject.name"
+    println "    Version: $rootProject.version"
+    println "Description: $rootProject.description"
+    println ""
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "  = = = = = = = = = = PROJECT PROPERTIES  = = = = = = = =  "
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "       Name: $project.name"
+    println "    Version: $project.version"
+    println "Description: $project.description"
+    println ""
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "  = = = = = = = = = = GITHUB PROPERTIES = = = = = = = = =  "
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println " Org Name: $project.githubOrgName"
+    println "Repo Name: $project.githubRepoName"
+    println ""
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "  = = = = = = = = = = BINTRAY PROPERTIES  = = = = = = = =  "
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "        User: $project.bintrayUser"
+    println "    Org Name: $project.bintrayOrgName"
+    println "   Repo Name: $project.bintrayRepoName"
+    println "Package Name: $project.bintrayPackageName"
+    println "     API Key: $project.bintrayApiKey"
+    println ""
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "  = = = = = = = = = = OSSRH PROPERTIES  = = = = = = = = =  "
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "    Nexus/OSSRH User: $ossrhUser"
+    println "Nexus/OSSRH Password: $ossrhPass"
+    println "          passphrase: $passPhrase"
+    println ""
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "  = = = = = = = = = = MISCELLANEOUS = = = = = = = = = = =  "
+    println "  = = = = = = = = = = = = = = = = = = = = = = = = = = = =  "
+    println "       labels: ${labels}"
+    println "inceptionYear: ${inceptionYear.toString()}"
+}
+
+bintrayUpload.dependsOn echoArcProps

@@ -2,6 +2,13 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    bintrayRepoName = project.name
+}
+
+apply from: file('gradle/maven-publish.gradle')
+apply from: file('gradle/bintray.gradle')
+
 dependencies {
 
     compile group: 'org.apache.commons', name: 'commons-csv', version: '1.4'

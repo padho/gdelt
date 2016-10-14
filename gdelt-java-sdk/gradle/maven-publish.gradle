@@ -1,0 +1,59 @@
+apply plugin: 'maven-publish'
+
+// TODO the new maven-publish plugin has no support for signing artifacts...
+// TODO checkout http://mike-neck.github.io/blog/2013/06/21/how-to-publish-artifacts-with-gradle-maven-publish-plugin-version-1-dot-6/
+// https://docs.gradle.org/current/userguide/publishing_maven.html
+task sourceJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            // telling gradle to publish project's jar archive
+            from components.java
+            groupId rootProject.group + "." + rootProject.name
+            artifactId project.name
+            version project.version
+
+            artifact sourceJar
+            artifact javadocJar
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', project.name)
+                root.appendNode('description', project.description)
+                root.appendNode('url', "https://github.com/${githubOrgName}/${githubRepoName}")
+                root.appendNode('inceptionYear', inceptionYear.toString())
+
+                def scm = root.appendNode('scm')
+                scm.appendNode('url', "https://github.com/${githubOrgName}/${githubRepoName}")
+                scm.appendNode('connection', "scm:git:git://github.com/${githubOrgName}/${githubRepoName}.git")
+                scm.appendNode('developerConnection', "scm:git://github.com/${githubOrgName}/${githubRepoName}.git")
+
+                def license = root.appendNode('licenses').appendNode('license')
+                license.appendNode('name', 'MIT License')
+                license.appendNode('url', 'http://www.opensource.org/licenses/mit-license.php')
+                license.appendNode('distribution', 'repo')
+
+                def developers = root.appendNode('developers')
+
+                def kevin = developers.appendNode('developer')
+                kevin.appendNode('id', 'kevinmichaelchen')
+                kevin.appendNode('name', 'Kevin Chen')
+                kevin.appendNode('email', 'kevin@teslagovernment.com')
+                kevin.appendNode('url', 'https://github.com/kevinmichaelchen')
+            }
+        }
+    }
+}
+
+publish << {
+    println 'FINISHED PUBLISHING!'
+}
