@@ -1,8 +1,16 @@
-plugins {
-  id "com.jfrog.bintray" version "1.6"
-  id 'com.palantir.git-version' version '0.5.2'
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.palantir.gradle.gitversion:gradle-git-version:0.5.2"
+    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1"
+  }
 }
 
+apply plugin: "com.palantir.git-version"
 def getVersionWithoutDirtySuffix = { ->
   def lastTag = versionDetails().lastTag
   if (lastTag.endsWith(".dirty")) {
@@ -16,6 +24,7 @@ version = getVersionWithoutDirtySuffix()
 description = """GDELT Java SDK"""
 
 subprojects {
+  apply plugin: 'idea'
   apply plugin: 'java'
   sourceCompatibility = 1.8
 }

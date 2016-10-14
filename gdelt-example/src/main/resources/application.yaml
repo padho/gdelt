@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  jackson:
+    deserialization: true
+    deserialization.read_date_timestamps_as_nanoseconds: false
+    serialization.write_dates_as_timestamps: true
+    serialization.write_date_timestamps_as_nanoseconds: false
+    serialization: true
+    mapper:
+      default_view_inclusion: true
+    default-property-inclusion: non_null
+  jpa:
+    database: MYSQL
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+      hibernate:
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+    show-sql: false
+    hibernate:
+      version: 5.0
+      format_sql: false
+#      naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+logging:
+  file: /var/log/gdelt/gdelt.log
+  level:
+    com.teslagov.gdelt: DEBUG
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type: TRACE

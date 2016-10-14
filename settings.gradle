@@ -1,4 +1,4 @@
 rootProject.name = 'gdelt'
 include 'gdelt-java-sdk'
-include 'gdelt-mongo-test'
+include 'gdelt-example'
 
