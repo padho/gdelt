@@ -705,4 +705,69 @@ public class GdeltEventResource implements Serializable
 	{
 		this.eventDate = eventDate;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "GdeltEventResource{" +
+			"globalEventID=" + globalEventID +
+			", actor1Code='" + actor1Code + '\'' +
+			", actor1Name='" + actor1Name + '\'' +
+			", actor1CountryCode='" + actor1CountryCode + '\'' +
+			", actor1KnownGroupCode='" + actor1KnownGroupCode + '\'' +
+			", actor1EthnicCode='" + actor1EthnicCode + '\'' +
+			", actor1Religion1Code='" + actor1Religion1Code + '\'' +
+			", actor1Religion2Code='" + actor1Religion2Code + '\'' +
+			", actor1Type1Code='" + actor1Type1Code + '\'' +
+			", actor1Type2Code='" + actor1Type2Code + '\'' +
+			", actor1Type3Code='" + actor1Type3Code + '\'' +
+			", actor2Code='" + actor2Code + '\'' +
+			", actor2Name='" + actor2Name + '\'' +
+			", actor2CountryCode='" + actor2CountryCode + '\'' +
+			", actor2KnownGroupCode='" + actor2KnownGroupCode + '\'' +
+			", actor2EthnicCode='" + actor2EthnicCode + '\'' +
+			", actor2Religion1Code='" + actor2Religion1Code + '\'' +
+			", actor2Religion2Code='" + actor2Religion2Code + '\'' +
+			", actor2Type1Code='" + actor2Type1Code + '\'' +
+			", actor2Type2Code='" + actor2Type2Code + '\'' +
+			", actor2Type3Code='" + actor2Type3Code + '\'' +
+			", isRootEvent=" + isRootEvent +
+			", eventCode='" + eventCode + '\'' +
+			", eventBaseCode='" + eventBaseCode + '\'' +
+			", eventRootCode='" + eventRootCode + '\'' +
+			", quadClass=" + quadClass +
+			", goldsteinScale=" + goldsteinScale +
+			", numMentions=" + numMentions +
+			", numSources=" + numSources +
+			", numArticles=" + numArticles +
+			", avgTone=" + avgTone +
+			", actor1GeoType=" + actor1GeoType +
+			", actor1GeoFullName='" + actor1GeoFullName + '\'' +
+			", actor1GeoCountryCode='" + actor1GeoCountryCode + '\'' +
+			", actor1GeoADM1Code='" + actor1GeoADM1Code + '\'' +
+			", actor1GeoADM2Code='" + actor1GeoADM2Code + '\'' +
+			", actor1GeoLat=" + actor1GeoLat +
+			", actor1GeoLong=" + actor1GeoLong +
+			", actor1GeoFeatureID='" + actor1GeoFeatureID + '\'' +
+			", actor2GeoType=" + actor2GeoType +
+			", actor2GeoFullName='" + actor2GeoFullName + '\'' +
+			", actor2GeoCountryCode='" + actor2GeoCountryCode + '\'' +
+			", actor2GeoADM1Code='" + actor2GeoADM1Code + '\'' +
+			", actor2GeoADM2Code='" + actor2GeoADM2Code + '\'' +
+			", actor2GeoLat=" + actor2GeoLat +
+			", actor2GeoLong=" + actor2GeoLong +
+			", actor2GeoFeatureID='" + actor2GeoFeatureID + '\'' +
+			", actionGeoType=" + actionGeoType +
+			", actionGeoFullName='" + actionGeoFullName + '\'' +
+			", actionGeoCountryCode='" + actionGeoCountryCode + '\'' +
+			", actionGeoADM1Code='" + actionGeoADM1Code + '\'' +
+			", actionGeoADM2Code='" + actionGeoADM2Code + '\'' +
+			", actionGeoLat=" + actionGeoLat +
+			", actionGeoLong=" + actionGeoLong +
+			", actionGeoFeatureID='" + actionGeoFeatureID + '\'' +
+			", dateAdded='" + dateAdded + '\'' +
+			", sourceUrl='" + sourceUrl + '\'' +
+			", eventDate=" + eventDate +
+			'}';
+	}
 }

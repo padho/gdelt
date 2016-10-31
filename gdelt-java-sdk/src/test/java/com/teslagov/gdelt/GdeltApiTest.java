@@ -93,6 +93,19 @@ public class GdeltApiTest
 		File file = new File( GdeltApiTest.class.getClassLoader().getResource( "20161013151500.export.CSV" ).getFile() );
 		GDELTReturnResult gdeltReturnResult = gdeltApi.parseCsv( file );
 		assertCsv( gdeltReturnResult );
+
+		List<GdeltEventResource> gdeltEvents = gdeltReturnResult.getGdeltEventList();
+		GdeltEventResource first = gdeltEvents.get( 0 );
+		assertEquals( 588604779, first.getGlobalEventID() );
+		assertEquals( "", first.getActor1Code() );
+		assertEquals( "DEU", first.getActor2Code() );
+		assertEquals( "HALLE", first.getActor2Name() );
+		assertEquals( "DEU", first.getActor2CountryCode() );
+		assertEquals( false, first.getRootEvent() );
+		assertEquals( "040", first.getEventCode() );
+		assertEquals( "040", first.getEventBaseCode() );
+		assertEquals( "04", first.getEventRootCode() );
+		assertEquals( 1, first.getQuadClass() );
 	}
 
 	private void assertCsv( GDELTReturnResult gdeltReturnResult )
