@@ -54,6 +54,6 @@ publishing {
     }
 }
 
-publish << {
+publish.doLast {
     println 'FINISHED PUBLISHING!'
 }
