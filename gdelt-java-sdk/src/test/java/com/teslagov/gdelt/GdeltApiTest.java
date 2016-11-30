@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -73,7 +76,10 @@ public class GdeltApiTest {
 
 	@Test
 	public void testSpecificDownload() {
-		gdeltApi.downloadUpdate(new File("src/test/resources"), true, false, 2016, 8, 5, 13, 15);
+		File file0 = gdeltApi.downloadUpdate(new File("src/test/resources"), true, false, 2016, 8, 5, 13, 15);
+		File file1 = gdeltApi.download().atTime(OffsetDateTime.of(2016, 8, 5, 13, 30, 0, 0, ZoneOffset.UTC)).execute();
+		File file2 = gdeltApi.download().atTime(LocalDateTime.now().minusHours(1).withMinute(0)).execute();
+		System.out.println(file2.length());
 	}
 
 	@Test

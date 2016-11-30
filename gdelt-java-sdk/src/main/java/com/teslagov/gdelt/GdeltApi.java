@@ -48,6 +48,10 @@ public class GdeltApi {
 		this.csvProcessor = new CsvProcessor();
 	}
 
+	public GdeltDownloadConfiguration download() {
+		return new GdeltDownloadConfiguration(this);
+	}
+
 	/**
 	 * Downloads a GDELT CSV file.
 	 *
@@ -68,6 +72,10 @@ public class GdeltApi {
 
 		return downloadUpdate(destinationDir, unzip, deleteZip,
 			time.getYear(), time.getMonth().getValue(), time.getDayOfMonth(), time.getHour(), time.getMinute());
+	}
+
+	public File downloadUpdate(OffsetDateTime time) {
+		return downloadUpdate(getDefaultDirectory(), time, true, false);
 	}
 
 	/**
@@ -110,8 +118,13 @@ public class GdeltApi {
 	 * @return a GDELT CSV file.
 	 */
 	public File downloadLastUpdate() {
-		File destinationDir = new File(System.getProperty("user.home") + File.separator + "gdelt");
+		File destinationDir = getDefaultDirectory();
 		return downloadLastUpdate(destinationDir, true, false);
+	}
+
+
+	File getDefaultDirectory() {
+		return new File(System.getProperty("user.home") + File.separator + "gdelt");
 	}
 
 	/**
