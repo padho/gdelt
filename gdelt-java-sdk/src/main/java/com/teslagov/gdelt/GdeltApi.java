@@ -33,8 +33,13 @@ public class GdeltApi {
 		this.httpClient = httpClient;
 		this.gdeltConfiguration = new GdeltConfiguration() {
 			@Override
+			public String getBaseURL() {
+				return "http://data.gdeltproject.org/gdeltv2";
+			}
+
+			@Override
 			public String getV2ServerURL() {
-				return "http://data.gdeltproject.org/gdeltv2/lastupdate.txt";
+				return getBaseURL() + "/lastupdate.txt";
 			}
 		};
 		this.gdeltLastUpdateFetcher = new GdeltLastUpdateFetcher();
@@ -43,8 +48,39 @@ public class GdeltApi {
 		this.csvProcessor = new CsvProcessor();
 	}
 
+	/**
+	 * Downloads
+	 *
+	 * @param destinationDir The directory to download files to.
+	 * @param time           The time indicating which CSV file to grab. GDELT files are published every 15 minutes.
+	 * @param unzip          Whether the downloaded file will be unzipped.
+	 * @param deleteZip      If you choose to unzip the CSV file, this method will not delete the zip file.
+	 * @return a GDELT CSV file
+	 */
+	public File downloadUpdate(File destinationDir, OffsetDateTime time, boolean unzip, boolean deleteZip) {
+		if (time.getMinute() % 15 != 0) {
+			throw new IllegalArgumentException("Given dateTime must be multiple of 15 minutes. Received: " + time);
+		}
+
+		if (time.isAfter(OffsetDateTime.now())) {
+			throw new IllegalArgumentException("Given dateTime must be before now. Received: " + time);
+		}
+
+		String url = String.format(
+			"%s/%d%d%d%d%d00.export.CSV.zip",
+			gdeltConfiguration.getBaseURL(),
+			time.getYear(),
+			time.getMonth().getValue(),
+			time.getDayOfMonth(),
+			time.getHour(),
+			time.getMinute()
+		);
+
+		return downloadGdeltFile(url, destinationDir, unzip, deleteZip);
+	}
+
 	public File downloadUpdate(File destinationDir, OffsetDateTime time) {
-		throw new UnsupportedOperationException("");
+		return downloadUpdate(destinationDir, time, true, false);
 	}
 
 	/**
