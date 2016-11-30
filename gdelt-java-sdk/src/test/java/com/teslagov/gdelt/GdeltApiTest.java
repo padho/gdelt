@@ -72,6 +72,11 @@ public class GdeltApiTest {
 	}
 
 	@Test
+	public void testSpecificDownload() {
+		gdeltApi.downloadUpdate(new File("src/test/resources"), true, false, 2016, 8, 5, 13, 15);
+	}
+
+	@Test
 	public void testDownload() {
 		// Download LastUpdate CSV
 		File csvFile = gdeltApi.downloadLastUpdate();
