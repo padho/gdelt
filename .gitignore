@@ -1,5 +1,8 @@
 .DS_Store
 build
+*.CSV
+*.zip
+classes
 *~
 .idea
 .gradle
