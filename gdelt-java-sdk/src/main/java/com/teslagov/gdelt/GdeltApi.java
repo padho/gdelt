@@ -7,12 +7,12 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.File;
 import java.io.InputStream;
+import java.time.OffsetDateTime;
 
 /**
  * @author Kevin Chen
  */
-public class GdeltApi
-{
+public class GdeltApi {
 	private final HttpClient httpClient;
 
 	private final GdeltConfiguration gdeltConfiguration;
@@ -25,19 +25,15 @@ public class GdeltApi
 
 	private final CsvProcessor csvProcessor;
 
-	public GdeltApi()
-	{
-		this( HttpClientBuilder.create().build() );
+	public GdeltApi() {
+		this(HttpClientBuilder.create().build());
 	}
 
-	public GdeltApi( HttpClient httpClient )
-	{
+	public GdeltApi(HttpClient httpClient) {
 		this.httpClient = httpClient;
-		this.gdeltConfiguration = new GdeltConfiguration()
-		{
+		this.gdeltConfiguration = new GdeltConfiguration() {
 			@Override
-			public String getV2ServerURL()
-			{
+			public String getV2ServerURL() {
 				return "http://data.gdeltproject.org/gdeltv2/lastupdate.txt";
 			}
 		};
@@ -47,15 +43,18 @@ public class GdeltApi
 		this.csvProcessor = new CsvProcessor();
 	}
 
+	public File downloadUpdate(File destinationDir, OffsetDateTime time) {
+		throw new UnsupportedOperationException("");
+	}
+
 	/**
 	 * Downloads a GDELT CSV file (unzipped), and does not delete the zip file.
 	 *
 	 * @param destinationDir The directory to download files to.
 	 * @return a GDELT CSV file
 	 */
-	public File downloadLastUpdate( File destinationDir )
-	{
-		return downloadLastUpdate( destinationDir, true, false );
+	public File downloadLastUpdate(File destinationDir) {
+		return downloadLastUpdate(destinationDir, true, false);
 	}
 
 	/**
@@ -63,10 +62,9 @@ public class GdeltApi
 	 *
 	 * @return a GDELT CSV file.
 	 */
-	public File downloadLastUpdate()
-	{
-		File destinationDir = new File( System.getProperty( "user.home" ) + File.separator + "gdelt" );
-		return downloadLastUpdate( destinationDir, true, false );
+	public File downloadLastUpdate() {
+		File destinationDir = new File(System.getProperty("user.home") + File.separator + "gdelt");
+		return downloadLastUpdate(destinationDir, true, false);
 	}
 
 	/**
@@ -76,9 +74,8 @@ public class GdeltApi
 	 * @param unzip          If you choose to unzip the CSV file, this method will not delete the zip file.
 	 * @return a GDELT CSV file
 	 */
-	public File downloadLastUpdate( File destinationDir, boolean unzip )
-	{
-		return downloadLastUpdate( destinationDir, unzip, false );
+	public File downloadLastUpdate(File destinationDir, boolean unzip) {
+		return downloadLastUpdate(destinationDir, unzip, false);
 	}
 
 	/**
@@ -89,17 +86,16 @@ public class GdeltApi
 	 * @param deleteZip      If you choose to unzip the CSV file, this method will not delete the zip file.
 	 * @return a GDELT CSV file
 	 */
-	public File downloadLastUpdate( File destinationDir, boolean unzip, boolean deleteZip )
-	{
-		// Step 1: get csv url
-		String lastUpdateUrl = gdeltLastUpdateFetcher.getGDELTLastUpdate( httpClient, gdeltConfiguration );
+	public File downloadLastUpdate(File destinationDir, boolean unzip, boolean deleteZip) {
+		String lastUpdateUrl = gdeltLastUpdateFetcher.getGDELTLastUpdate(httpClient, gdeltConfiguration);
+		return downloadGdeltFile(lastUpdateUrl, destinationDir, unzip, deleteZip);
+	}
 
-		// Step 2: download zipped csv
-		File zippedCsvFile = gdeltLastUpdateDownloader.downloadGDELTZipFile( httpClient, destinationDir, lastUpdateUrl );
+	private File downloadGdeltFile(String url, File destinationDir, boolean unzip, boolean deleteZip) {
+		File zippedCsvFile = gdeltLastUpdateDownloader.downloadGDELTZipFile(httpClient, destinationDir, url);
 
-		if ( unzip )
-		{
-			return unzipCsv( zippedCsvFile, deleteZip );
+		if (unzip) {
+			return unzipCsv(zippedCsvFile, deleteZip);
 		}
 
 		return zippedCsvFile;
@@ -112,9 +108,8 @@ public class GdeltApi
 	 * @param deleteZip     Whether to delete the zip file afterwards
 	 * @return an unzipped CSV file.
 	 */
-	public File unzipCsv( File zippedCsvFile, boolean deleteZip )
-	{
-		return gdeltLastUpdateUnzipper.unzip( zippedCsvFile, deleteZip );
+	public File unzipCsv(File zippedCsvFile, boolean deleteZip) {
+		return gdeltLastUpdateUnzipper.unzip(zippedCsvFile, deleteZip);
 	}
 
 	/**
@@ -123,14 +118,12 @@ public class GdeltApi
 	 * @param file The CSV file.
 	 * @return the GDELT CSV records as POJOs.
 	 */
-	public GDELTReturnResult parseCsv( File file )
-	{
-		return csvProcessor.processCSV( file );
+	public GDELTReturnResult parseCsv(File file) {
+		return csvProcessor.processCSV(file);
 	}
 
 	// TODO make public once the test passes
-	GDELTReturnResult parseCsv( InputStream inputStream )
-	{
-		return csvProcessor.processCSV( inputStream );
+	GDELTReturnResult parseCsv(InputStream inputStream) {
+		return csvProcessor.processCSV(inputStream);
 	}
 }

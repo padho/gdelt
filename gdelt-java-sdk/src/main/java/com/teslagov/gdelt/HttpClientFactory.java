@@ -27,65 +27,54 @@ import java.security.cert.X509Certificate;
  *
  * @author Kevin Chen
  */
-class HttpClientFactory
-{
-	private static final Logger logger = LoggerFactory.getLogger( HttpClientFactory.class );
+class HttpClientFactory {
+	private static final Logger logger = LoggerFactory.getLogger(HttpClientFactory.class);
 
 	public static final int CONNECTION_TIMEOUT = 120000;
 
 	public static final int SOCKET_TIMEOUT = 120000;
 
-	public static DefaultHttpClient createHttpClient( HttpHost proxy )
-	{
+	public static DefaultHttpClient createHttpClient(HttpHost proxy) {
 		HttpParams httpParams = new BasicHttpParams();
-		HttpConnectionParams.setConnectionTimeout( httpParams, CONNECTION_TIMEOUT ); // Timeout in n/1000 seconds 1 minute
-		HttpConnectionParams.setSoTimeout( httpParams, SOCKET_TIMEOUT ); // Timeout in n/1000 seconds
+		HttpConnectionParams.setConnectionTimeout(httpParams, CONNECTION_TIMEOUT); // Timeout in n/1000 seconds 1 minute
+		HttpConnectionParams.setSoTimeout(httpParams, SOCKET_TIMEOUT); // Timeout in n/1000 seconds
 
-		if ( proxy != null )
-		{
-			httpParams.setParameter( ConnRoutePNames.DEFAULT_PROXY, proxy );
+		if (proxy != null) {
+			httpParams.setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 		}
 
-		DefaultHttpClient hc = new DefaultHttpClient( httpParams );
-		configureCookieStore( hc );
-		configureSSLHandling( hc );
+		DefaultHttpClient hc = new DefaultHttpClient(httpParams);
+		configureCookieStore(hc);
+		configureSSLHandling(hc);
 		return hc;
 	}
 
-	private static void configureCookieStore( DefaultHttpClient hc )
-	{
+	private static void configureCookieStore(DefaultHttpClient hc) {
 		CookieStore cStore = new BasicCookieStore();
-		hc.setCookieStore( cStore );
+		hc.setCookieStore(cStore);
 	}
 
-	private static void configureSSLHandling( DefaultHttpClient hc )
-	{
+	private static void configureSSLHandling(DefaultHttpClient hc) {
 		SSLSocketFactory sf = buildSSLSocketFactory();
-		Scheme https = new Scheme( "https", 443, sf );
+		Scheme https = new Scheme("https", 443, sf);
 		SchemeRegistry sr = hc.getConnectionManager().getSchemeRegistry();
-		sr.register( https );
+		sr.register(https);
 	}
 
-	private static SSLSocketFactory buildSSLSocketFactory()
-	{
-		TrustStrategy ts = new TrustStrategy()
-		{
+	private static SSLSocketFactory buildSSLSocketFactory() {
+		TrustStrategy ts = new TrustStrategy() {
 			@Override
-			public boolean isTrusted( X509Certificate[] x509Certificates, String s ) throws CertificateException
-			{
+			public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
 				return true; // heck yea!
 			}
 		};
 
 		SSLSocketFactory sf = null;
-		try
-		{
-			/* build socket factory with hostname verification turned off. */
-			sf = new SSLSocketFactory( ts, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER );
-		}
-		catch ( KeyManagementException | KeyStoreException | UnrecoverableKeyException | NoSuchAlgorithmException ex )
-		{
-			logger.error( "Failed to create an SSL Factory connection", ex );
+		try {
+	        /* build socket factory with hostname verification turned off. */
+			sf = new SSLSocketFactory(ts, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+		} catch (KeyManagementException | KeyStoreException | UnrecoverableKeyException | NoSuchAlgorithmException ex) {
+			logger.error("Failed to create an SSL Factory connection", ex);
 		}
 
 		return sf;

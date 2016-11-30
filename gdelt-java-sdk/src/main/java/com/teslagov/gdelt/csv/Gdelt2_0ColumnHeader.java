@@ -5,8 +5,7 @@ package com.teslagov.gdelt.csv;
  *
  * @author Kevin Chen
  */
-public enum Gdelt2_0ColumnHeader
-{
+public enum Gdelt2_0ColumnHeader {
 	GLOBALEVENTID,
 	SQLDATE,
 	MonthYear,
@@ -73,27 +72,23 @@ public enum Gdelt2_0ColumnHeader
 
 	private static final String[] names;
 
-	static
-	{
+	static {
 		// initialize size
 		size = Gdelt2_0ColumnHeader.values().length;
 
 		// initialize names
 		names = new String[size];
 		int index = 0;
-		for ( Gdelt2_0ColumnHeader s : Gdelt2_0ColumnHeader.values() )
-		{
+		for (Gdelt2_0ColumnHeader s : Gdelt2_0ColumnHeader.values()) {
 			names[index++] = s.name();
 		}
 	}
 
-	public static String[] getNames()
-	{
+	public static String[] getNames() {
 		return names;
 	}
 
-	public static int getSize()
-	{
+	public static int getSize() {
 		return size;
 	}
 }

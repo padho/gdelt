@@ -20,41 +20,36 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Kevin Chen
  */
-public class GdeltApiTest
-{
-	private static final Logger logger = LoggerFactory.getLogger( GdeltApiTest.class );
+public class GdeltApiTest {
+	private static final Logger logger = LoggerFactory.getLogger(GdeltApiTest.class);
 
-	enum GdeltCameoDownloadCodes
-	{
-		EngageInMaterialCooperation( "06" ),
-		ProvideAid( "07" ),
-		Threaten( "13" ),
-		Protest( "14" ),
-		Coerce( "17" ),
-		Assault( "18" ),
-		Fight( "19" ),
-		EngageInUnconventionalMassViolence( "20" );
+	enum GdeltCameoDownloadCodes {
+		EngageInMaterialCooperation("06"),
+		ProvideAid("07"),
+		Threaten("13"),
+		Protest("14"),
+		Coerce("17"),
+		Assault("18"),
+		Fight("19"),
+		EngageInUnconventionalMassViolence("20");
 
-		public String getRootCameoCode()
-		{
+		public String getRootCameoCode() {
 			return rootCameoCode;
 		}
 
-		GdeltCameoDownloadCodes( String cameoCode )
-		{
+		GdeltCameoDownloadCodes(String cameoCode) {
 			this.rootCameoCode = cameoCode;
 		}
 
-		public static boolean containsCameo( String eventRootCode )
-		{
-			return eventRootCode.equals( EngageInMaterialCooperation.getRootCameoCode() ) ||
-				eventRootCode.equals( ProvideAid.getRootCameoCode() ) ||
-				eventRootCode.equals( Threaten.getRootCameoCode() ) ||
-				eventRootCode.equals( Protest.getRootCameoCode() ) ||
-				eventRootCode.equals( Coerce.getRootCameoCode() ) ||
-				eventRootCode.equals( Assault.getRootCameoCode() ) ||
-				eventRootCode.equals( Fight.getRootCameoCode() ) ||
-				eventRootCode.equals( EngageInUnconventionalMassViolence.getRootCameoCode() );
+		public static boolean containsCameo(String eventRootCode) {
+			return eventRootCode.equals(EngageInMaterialCooperation.getRootCameoCode()) ||
+				eventRootCode.equals(ProvideAid.getRootCameoCode()) ||
+				eventRootCode.equals(Threaten.getRootCameoCode()) ||
+				eventRootCode.equals(Protest.getRootCameoCode()) ||
+				eventRootCode.equals(Coerce.getRootCameoCode()) ||
+				eventRootCode.equals(Assault.getRootCameoCode()) ||
+				eventRootCode.equals(Fight.getRootCameoCode()) ||
+				eventRootCode.equals(EngageInUnconventionalMassViolence.getRootCameoCode());
 		}
 
 		private final String rootCameoCode;
@@ -63,62 +58,57 @@ public class GdeltApiTest
 	private GdeltApi gdeltApi;
 
 	@Before
-	public void init()
-	{
+	public void init() {
 		gdeltApi = new GdeltApi();
 	}
 
 	@Test
-	public void testDownload()
-	{
+	public void testDownload() {
 		// Download LastUpdate CSV
 		File csvFile = gdeltApi.downloadLastUpdate();
-		assertNotNull( csvFile );
-		logger.info( "Download a GDELT CSV file to: {}", csvFile.getAbsolutePath() );
+		assertNotNull(csvFile);
+		logger.info("Download a GDELT CSV file to: {}", csvFile.getAbsolutePath());
 	}
 
 	@Test
-	public void testParseCsvInputStream() throws IOException
-	{
+	public void testParseCsvInputStream() throws IOException {
 		// TODO csv processing works with file but not with InputStream
-		InputStream inputStream = GdeltApiTest.class.getClassLoader().getResourceAsStream( "20161013151500.export.CSV" );
-		logger.info( "Input Stream: {}", IOUtils.toString( inputStream, StandardCharsets.UTF_8 ) );
-		GDELTReturnResult gdeltReturnResult = gdeltApi.parseCsv( inputStream );
-		assertCsv( gdeltReturnResult );
+		InputStream inputStream = GdeltApiTest.class.getClassLoader().getResourceAsStream("20161013151500.export.CSV");
+		logger.info("Input Stream: {}", IOUtils.toString(inputStream, StandardCharsets.UTF_8));
+		GDELTReturnResult gdeltReturnResult = gdeltApi.parseCsv(inputStream);
+		assertCsv(gdeltReturnResult);
 	}
 
 	@Test
-	public void testParseCsvFile()
-	{
-		File file = new File( GdeltApiTest.class.getClassLoader().getResource( "20161013151500.export.CSV" ).getFile() );
-		GDELTReturnResult gdeltReturnResult = gdeltApi.parseCsv( file );
-		assertCsv( gdeltReturnResult );
+	public void testParseCsvFile() {
+		File file = new File(GdeltApiTest.class.getClassLoader().getResource("20161013151500.export.CSV").getFile());
+		GDELTReturnResult gdeltReturnResult = gdeltApi.parseCsv(file);
+		assertCsv(gdeltReturnResult);
 
 		List<GdeltEventResource> gdeltEvents = gdeltReturnResult.getGdeltEventList();
-		GdeltEventResource first = gdeltEvents.get( 0 );
-		assertEquals( 588604779, first.getGlobalEventID() );
-		assertEquals( "", first.getActor1Code() );
-		assertEquals( "DEU", first.getActor2Code() );
-		assertEquals( "HALLE", first.getActor2Name() );
-		assertEquals( "DEU", first.getActor2CountryCode() );
-		assertEquals( false, first.getRootEvent() );
-		assertEquals( "040", first.getEventCode() );
-		assertEquals( "040", first.getEventBaseCode() );
-		assertEquals( "04", first.getEventRootCode() );
-		assertEquals( 1, first.getQuadClass() );
+		GdeltEventResource first = gdeltEvents.get(0);
+		assertEquals(588604779, first.getGlobalEventID());
+		assertEquals("", first.getActor1Code());
+		assertEquals("DEU", first.getActor2Code());
+		assertEquals("HALLE", first.getActor2Name());
+		assertEquals("DEU", first.getActor2CountryCode());
+		assertEquals(false, first.getRootEvent());
+		assertEquals("040", first.getEventCode());
+		assertEquals("040", first.getEventBaseCode());
+		assertEquals("04", first.getEventRootCode());
+		assertEquals(1, first.getQuadClass());
 	}
 
-	private void assertCsv( GDELTReturnResult gdeltReturnResult )
-	{
+	private void assertCsv(GDELTReturnResult gdeltReturnResult) {
 		long start, end;
-		gdeltReturnResult.getGdeltEventList().forEach( e -> logger.trace( e.toString() ) );
+		gdeltReturnResult.getGdeltEventList().forEach(e -> logger.trace(e.toString()));
 
 		List<GdeltEventResource> gdeltEvents = gdeltReturnResult.getGdeltEventList();
 		start = System.currentTimeMillis();
-		long count = gdeltEvents.stream().filter( event -> GdeltCameoDownloadCodes.containsCameo( event.getEventRootCode() ) ).count();
+		long count = gdeltEvents.stream().filter(event -> GdeltCameoDownloadCodes.containsCameo(event.getEventRootCode())).count();
 		end = System.currentTimeMillis();
-		logger.debug( "Took {} ms to filter", end - start );
-		logger.debug( "Loaded {} events", count );
-		assertEquals( 653, count );
+		logger.debug("Took {} ms to filter", end - start);
+		logger.debug("Loaded {} events", count);
+		assertEquals(653, count);
 	}
 }

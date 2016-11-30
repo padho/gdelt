@@ -8,29 +8,24 @@ import java.util.List;
 /**
  * @author Kevin Chen
  */
-public class GDELTReturnResult
-{
+public class GDELTReturnResult {
 	private GdeltDailyDownloadResource downloadResult;
 
 	private List<GdeltEventResource> gdeltEventList;
 
-	public GdeltDailyDownloadResource getDownloadResult()
-	{
+	public GdeltDailyDownloadResource getDownloadResult() {
 		return downloadResult;
 	}
 
-	public void setDownloadResult( GdeltDailyDownloadResource downloadResult )
-	{
+	public void setDownloadResult(GdeltDailyDownloadResource downloadResult) {
 		this.downloadResult = downloadResult;
 	}
 
-	public List<GdeltEventResource> getGdeltEventList()
-	{
+	public List<GdeltEventResource> getGdeltEventList() {
 		return gdeltEventList;
 	}
 
-	public void setGdeltEventList( List<GdeltEventResource> gdeltEventList )
-	{
+	public void setGdeltEventList(List<GdeltEventResource> gdeltEventList) {
 		this.gdeltEventList = gdeltEventList;
 	}
 }

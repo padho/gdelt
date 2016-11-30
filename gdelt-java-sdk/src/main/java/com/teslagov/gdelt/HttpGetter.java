@@ -7,23 +7,17 @@ import java.net.URISyntaxException;
 /**
  * @author Kevin Chen
  */
-public class HttpGetter
-{
-	public static HttpGet get( String url )
-	{
-		try
-		{
-			validateUrl( url );
+public class HttpGetter {
+	public static HttpGet get(String url) {
+		try {
+			validateUrl(url);
+		} catch (URISyntaxException e) {
+			throw new GdeltException("Invalid url: " + url, e);
 		}
-		catch ( URISyntaxException e )
-		{
-			throw new GdeltException( "Invalid url: " + url, e );
-		}
-		return new HttpGet( url );
+		return new HttpGet(url);
 	}
 
-	private static void validateUrl( String url ) throws URISyntaxException
-	{
+	private static void validateUrl(String url) throws URISyntaxException {
 		// TODO bring back
 //		final String[] schemes =
 //			{

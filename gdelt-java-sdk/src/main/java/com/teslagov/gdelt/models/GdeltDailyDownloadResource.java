@@ -6,8 +6,7 @@ import java.util.Date;
 /**
  * @author Kevin Chen
  */
-public class GdeltDailyDownloadResource implements Serializable
-{
+public class GdeltDailyDownloadResource implements Serializable {
 	private Boolean downloadedSuccessfully;
 
 	private int recordsLoaded;
@@ -16,43 +15,35 @@ public class GdeltDailyDownloadResource implements Serializable
 
 	private Date modifiedDate;
 
-	public Boolean getDownloadedSuccessfully()
-	{
+	public Boolean getDownloadedSuccessfully() {
 		return downloadedSuccessfully;
 	}
 
-	public void setDownloadedSuccessfully( Boolean downloadedSuccessfully )
-	{
+	public void setDownloadedSuccessfully(Boolean downloadedSuccessfully) {
 		this.downloadedSuccessfully = downloadedSuccessfully;
 	}
 
-	public int getRecordsLoaded()
-	{
+	public int getRecordsLoaded() {
 		return recordsLoaded;
 	}
 
-	public void setRecordsLoaded( int recordsLoaded )
-	{
+	public void setRecordsLoaded(int recordsLoaded) {
 		this.recordsLoaded = recordsLoaded;
 	}
 
-	public int getRecordsFailed()
-	{
+	public int getRecordsFailed() {
 		return recordsFailed;
 	}
 
-	public void setRecordsFailed( int recordsFailed )
-	{
+	public void setRecordsFailed(int recordsFailed) {
 		this.recordsFailed = recordsFailed;
 	}
 
-	public Date getModifiedDate()
-	{
+	public Date getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate( Date modifiedDate )
-	{
+	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 }
