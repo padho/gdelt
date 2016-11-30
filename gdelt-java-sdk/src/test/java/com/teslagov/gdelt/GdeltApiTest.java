@@ -63,6 +63,15 @@ public class GdeltApiTest {
 	}
 
 	@Test
+	public void testFormatUrl() {
+		String url;
+
+		url = gdeltApi.formatGdeltUrl(2016, 7, 15, 8, 30);
+
+		assertEquals("http://data.gdeltproject.org/gdeltv2/20160715083000.export.CSV.zip", url);
+	}
+
+	@Test
 	public void testDownload() {
 		// Download LastUpdate CSV
 		File csvFile = gdeltApi.downloadLastUpdate();
