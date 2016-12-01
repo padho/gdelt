@@ -17,6 +17,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
+import static com.teslagov.gdelt.GdeltDefaultDirectoryFileFactory.getDefaultDirectory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -67,8 +68,8 @@ public class GdeltApiTest {
 
 	@Test
 	public void shouldSkipDownloadIfFileFound() {
-		gdeltApi.downloadUpdate(gdeltApi.getDefaultDirectory(), true, false, 2016, 8, 5, 13, 30);
-		gdeltApi.downloadUpdate(gdeltApi.getDefaultDirectory(), true, false, 2016, 8, 5, 13, 45);
+		gdeltApi.downloadUpdate(getDefaultDirectory(), true, false, 2016, 8, 5, 13, 30);
+		gdeltApi.downloadUpdate(getDefaultDirectory(), true, false, 2016, 8, 6, 13, 45);
 	}
 
 	@Test
@@ -82,7 +83,7 @@ public class GdeltApiTest {
 	@Test
 	public void testDownload() {
 		// Download LastUpdate CSV
-		File csvFile = gdeltApi.downloadLastUpdate();
+		File csvFile = gdeltApi.downloadLastUpdate().execute();
 		assertNotNull(csvFile);
 		logger.info("Download a GDELT CSV file to: {}", csvFile.getAbsolutePath());
 	}

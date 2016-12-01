@@ -56,45 +56,50 @@ public class GdeltApi {
 	}
 
 	/**
-	 * @param destinationDir The directory to download files to.
-	 * @param unzip          Whether the downloaded file will be unzipped.
-	 * @param deleteZip      If you choose to unzip the CSV file, this method will not delete the zip file.
-	 * @param year           The year (e.g., 1979-2017) of the GDELT CSV to download.
-	 * @param month          The month (e.g., 01-12) of the GDELT CSV to download.
-	 * @param dayOfMonth     The day of month (e.g,. 1-30) of the GDELT CSV to download.
-	 * @param hour           The hour (e.g., 00-23) of the GDELT CSV to download.
-	 * @param minute         The minute (e.g., 00-59) of the GDELT CSV to download.
+	 * @param parentDestinationDir The directory to download files to.
+	 * @param unzip                Whether the downloaded file will be unzipped.
+	 * @param deleteZip            If you choose to unzip the CSV file, this method will not delete the zip file.
+	 * @param year                 The year (e.g., 1979-2017) of the GDELT CSV to download.
+	 * @param month                The month (e.g., 01-12) of the GDELT CSV to download.
+	 * @param dayOfMonth           The day of month (e.g,. 1-30) of the GDELT CSV to download.
+	 * @param hour                 The hour (e.g., 00-23) of the GDELT CSV to download.
+	 * @param minute               The minute (e.g., 00-59) of the GDELT CSV to download.
 	 * @return a GDELT CSV file.
 	 */
-	File downloadUpdate(File destinationDir, boolean unzip, boolean deleteZip, int year, int month, int dayOfMonth, int hour, int minute) {
-		File[] files = destinationDir.listFiles();
-		if (files != null) {
-			List<String> csvFileNames = Arrays.stream(files)
-				.filter(File::isFile)
-				.map(File::getName)
-				.filter(n -> n.endsWith(".CSV"))
-				.collect(Collectors.toList());
+	File downloadUpdate(File parentDestinationDir, boolean unzip, boolean deleteZip, int year, int month, int dayOfMonth, int hour, int minute) {
+		File destinationDir = GdeltDefaultDirectoryFileFactory.getDirectory(parentDestinationDir, year, month, dayOfMonth);
+		if (destinationDir.exists()) {
+			File[] files = destinationDir.listFiles();
+			if (files != null) {
+				List<String> csvFileNames = Arrays.stream(files)
+					.filter(File::isFile)
+					.map(File::getName)
+					.filter(n -> n.endsWith(".CSV"))
+					.collect(Collectors.toList());
 
-			// we found the csv, just return it
-			String csvFileName = gdeltFileNameFormatter.formatGdeltCsvFilename(year, month, dayOfMonth, hour, minute);
-			if (csvFileNames.contains(csvFileName)) {
-				logger.debug("Found CSV file for: {}", csvFileName);
-				return new File(destinationDir.getAbsolutePath() + File.separator + csvFileName);
+				// we found the csv, just return it
+				String csvFileName = gdeltFileNameFormatter.formatGdeltCsvFilename(year, month, dayOfMonth, hour, minute);
+				if (csvFileNames.contains(csvFileName)) {
+					logger.debug("Found CSV file for: {}", csvFileName);
+					return new File(destinationDir.getAbsolutePath() + File.separator + csvFileName);
+				}
+
+				List<String> zippedCsvFileNames = Arrays.stream(files)
+					.filter(File::isFile)
+					.map(File::getName)
+					.filter(n -> n.endsWith(".CSV.zip"))
+					.collect(Collectors.toList());
+
+				// we found the zipped csv, just unzip it and return the unzipped file
+				String zippedCsvFileName = gdeltFileNameFormatter.formatGdeltZippedCsvFilename(year, month, dayOfMonth, hour, minute);
+				if (zippedCsvFileNames.contains(zippedCsvFileName)) {
+					logger.debug("Found zipped CSV file for: {}", zippedCsvFileName);
+					File zippedCsv = new File(destinationDir.getAbsolutePath() + File.separator + zippedCsvFileName);
+					return unzipCsv(zippedCsv, false);
+				}
 			}
-
-			List<String> zippedCsvFileNames = Arrays.stream(files)
-				.filter(File::isFile)
-				.map(File::getName)
-				.filter(n -> n.endsWith(".CSV.zip"))
-				.collect(Collectors.toList());
-
-			// we found the zipped csv, just unzip it and return the unzipped file
-			String zippedCsvFileName = gdeltFileNameFormatter.formatGdeltZippedCsvFilename(year, month, dayOfMonth, hour, minute);
-			if (zippedCsvFileNames.contains(zippedCsvFileName)) {
-				logger.debug("Found zipped CSV file for: {}", zippedCsvFileName);
-				File zippedCsv = new File(destinationDir.getAbsolutePath() + File.separator + zippedCsvFileName);
-				return unzipCsv(zippedCsv, false);
-			}
+		} else {
+			destinationDir.mkdirs();
 		}
 
 		String url = gdeltFileNameFormatter.formatGdeltUrl(year, month, dayOfMonth, hour, minute);
@@ -104,13 +109,15 @@ public class GdeltApi {
 	/**
 	 * Returns the GDELT last updates CSV file (zipped or unzipped).
 	 *
-	 * @param destinationDir The directory to download files to.
+	 * @param parentDestinationDir The directory to download files to.
 	 * @param unzip          Whether the downloaded file will be unzipped.
 	 * @param deleteZip      If you choose to unzip the CSV file, this method will not delete the zip file.
 	 * @return a GDELT CSV file
 	 */
-	File downloadLastUpdate(File destinationDir, boolean unzip, boolean deleteZip) {
+	File downloadLastUpdate(File parentDestinationDir, boolean unzip, boolean deleteZip) {
 		String lastUpdateUrl = gdeltLastUpdateFetcher.getGDELTLastUpdate(httpClient, gdeltConfiguration);
+		File destinationDir = GdeltDefaultDirectoryFileFactory.getDirectory(parentDestinationDir, lastUpdateUrl);
+		destinationDir.mkdirs();
 		return downloadGdeltFile(lastUpdateUrl, destinationDir, unzip, deleteZip);
 	}
 
