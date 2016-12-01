@@ -7,25 +7,28 @@ So if the url we're trying to download is `http://data.gdeltproject.org/gdeltv2/
 ##### `downloadLastUpdate` - fetches the latest CSV file
 ##### `download` - fetches a CSV file corresponding to a given date
 ##### `parseCsv(File)` - parses a CSV file into a POJO
-##### `unzipCsv(File)` - unzips a CSV zip file
 
 ### Examples
 ```java
-GdeltApi gdeltApi = new GdeltApi();
-
-// fluent api for download csv files
-// only the default params are shown
-File csvFile = 
-  gdeltApi.downloadLastUpdate()
-    .toDirectory(new File("~/gdelt"))
-    .deleteZipFile(false)
-    .unzip(true)
-    .execute();
-
-// this is equivalent to the previous
-// if the last update has been downloaded already, 
-// then we skip the download and return that file 
-File csvFile2 = 
-  gdeltApi.downloadLastUpdate()
-    .execute();
+public class Test {
+  public static void main(String[] args) {
+    GdeltApi gdeltApi = new GdeltApi();
+      
+    // fluent api for download csv files
+    // only the default params are shown
+    File csvFile = 
+      gdeltApi.downloadLastUpdate()
+        .toDirectory(new File("~/gdelt"))
+        .deleteZipFile(false)
+        .unzip(true)
+        .execute();
+      
+    // this is equivalent to the previous
+    // if the last update has been downloaded already, 
+    // then we skip the download and return that file 
+    File csvFile2 = 
+      gdeltApi.downloadLastUpdate()
+        .execute();
+  }
+}
 ```

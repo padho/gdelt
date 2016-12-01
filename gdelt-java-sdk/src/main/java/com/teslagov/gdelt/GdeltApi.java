@@ -138,7 +138,7 @@ public class GdeltApi {
 	 * @param deleteZip     Whether to delete the zip file afterwards
 	 * @return an unzipped CSV file.
 	 */
-	public File unzipCsv(File zippedCsvFile, boolean deleteZip) {
+	private File unzipCsv(File zippedCsvFile, boolean deleteZip) {
 		return gdeltLastUpdateUnzipper.unzip(zippedCsvFile, deleteZip);
 	}
 
