@@ -55,17 +55,6 @@ public class GdeltApi {
 		return new GdeltLastUpdateDownloadConfiguration(this);
 	}
 
-	/**
-	 * @param parentDestinationDir The directory to download files to.
-	 * @param unzip                Whether the downloaded file will be unzipped.
-	 * @param deleteZip            If you choose to unzip the CSV file, this method will not delete the zip file.
-	 * @param year                 The year (e.g., 1979-2017) of the GDELT CSV to download.
-	 * @param month                The month (e.g., 01-12) of the GDELT CSV to download.
-	 * @param dayOfMonth           The day of month (e.g,. 1-30) of the GDELT CSV to download.
-	 * @param hour                 The hour (e.g., 00-23) of the GDELT CSV to download.
-	 * @param minute               The minute (e.g., 00-59) of the GDELT CSV to download.
-	 * @return a GDELT CSV file.
-	 */
 	File downloadUpdate(File parentDestinationDir, boolean unzip, boolean deleteZip, int year, int month, int dayOfMonth, int hour, int minute) {
 		File destinationDir = GdeltDefaultDirectoryFileFactory.getDirectory(parentDestinationDir, year, month, dayOfMonth);
 		if (destinationDir.exists()) {
@@ -106,14 +95,6 @@ public class GdeltApi {
 		return downloadGdeltFile(url, destinationDir, unzip, deleteZip);
 	}
 
-	/**
-	 * Returns the GDELT last updates CSV file (zipped or unzipped).
-	 *
-	 * @param parentDestinationDir The directory to download files to.
-	 * @param unzip          Whether the downloaded file will be unzipped.
-	 * @param deleteZip      If you choose to unzip the CSV file, this method will not delete the zip file.
-	 * @return a GDELT CSV file
-	 */
 	File downloadLastUpdate(File parentDestinationDir, boolean unzip, boolean deleteZip) {
 		String lastUpdateUrl = gdeltLastUpdateFetcher.getGDELTLastUpdate(httpClient, gdeltConfiguration);
 		File destinationDir = GdeltDefaultDirectoryFileFactory.getDirectory(parentDestinationDir, lastUpdateUrl);
@@ -131,13 +112,6 @@ public class GdeltApi {
 		return zippedCsvFile;
 	}
 
-	/**
-	 * Unzips a GDELT CSV file (to the same directory as the given zip file).
-	 *
-	 * @param zippedCsvFile The file to unzip
-	 * @param deleteZip     Whether to delete the zip file afterwards
-	 * @return an unzipped CSV file.
-	 */
 	private File unzipCsv(File zippedCsvFile, boolean deleteZip) {
 		return gdeltLastUpdateUnzipper.unzip(zippedCsvFile, deleteZip);
 	}
