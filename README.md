@@ -17,9 +17,17 @@ If we already have the `.CSV` file, we skip the download and return the file.
 If we have the corresponding `.CSV.zip`, then we unzip it and return the unzipped file.
 
 ### `GdeltApi.java`
-##### `downloadLastUpdate` - fetches the latest CSV file
-##### `download` - fetches a CSV file corresponding to a given date
-##### `parseCsv(File)` - parses a CSV file into a POJO
+#### Constructor
+There are two constructors.
+
+The first is empty and uses the default `HttpClient`.
+
+The second accepts an `HttpClient`, which is useful if you have to proxy or tweak other http settings.
+
+#### `downloadLastUpdate` - fetches the latest CSV file
+#### `download` - fetches a CSV file corresponding to a given date
+#### `downloadAllSince(LocalDateTime since)` - downloads all CSV files since given time
+#### `parseCsv(File)` - parses a CSV file into a POJO
 
 ### Examples
 ```java
