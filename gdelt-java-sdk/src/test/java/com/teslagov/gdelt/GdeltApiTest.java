@@ -81,6 +81,11 @@ public class GdeltApiTest {
 	}
 
 	@Test
+	public void testDownloadSince() {
+		gdeltApi.downloadAllSince(LocalDateTime.now().minusHours(3)).execute();
+	}
+
+	@Test
 	public void testDownload() {
 		// Download LastUpdate CSV
 		File csvFile = gdeltApi.downloadLastUpdate().execute();

@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -53,6 +55,20 @@ public class GdeltApi {
 
 	public GdeltLastUpdateDownloadConfiguration downloadLastUpdate() {
 		return new GdeltLastUpdateDownloadConfiguration(this);
+	}
+
+	public GdeltMultipleDownloadsConfiguration downloadAllSince(LocalDateTime since) {
+		return new GdeltMultipleDownloadsConfiguration(this, since);
+	}
+
+	Optional<File> tryDownloadUpdate(File parentDestinationDir, boolean unzip, boolean deleteZip, int year, int month, int dayOfMonth, int hour, int minute) {
+		try {
+			return Optional.of(downloadUpdate(parentDestinationDir, unzip, deleteZip, year, month, dayOfMonth, hour, minute));
+		} catch (Exception e) {
+			logger.warn("Error downloading file for {}/{}/{}/{}/{}", year, month, dayOfMonth, hour, minute);
+			logger.error("Error download file", e);
+		}
+		return Optional.empty();
 	}
 
 	File downloadUpdate(File parentDestinationDir, boolean unzip, boolean deleteZip, int year, int month, int dayOfMonth, int hour, int minute) {

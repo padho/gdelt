@@ -42,6 +42,9 @@ public class Test {
     File csvFile2 = 
       gdeltApi.downloadLastUpdate()
         .execute();
+    
+    // Download all files in last 3 hours
+    gdeltApi.downloadAllSince(LocalDateTime.now().minusHours(3)).execute();
   }
 }
 ```
