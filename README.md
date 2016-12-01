@@ -1,7 +1,20 @@
 # gdelt-java-sdk
-An easy way to download GDELT CSV files. By default, files are downloaded to `~/gdelt`; however, a different parent directory can be specified.
-Underneath the parent directory, `.CSV` and `.CSV.zip` files are stored under the directory structure `YEAR/MONTH/DAY_OF_MONTH`.
-So if the url we're trying to download is `http://data.gdeltproject.org/gdeltv2/20161201040000.export.CSV.zip`, then the files will appear under `~/gdelt/2016/12/01`, assuming we're using the default parent directory (`~/gdelt`)
+This project provides a fluent API for downloading [GDELT](http://gdeltproject.org/) CSV files, which are released every 15 minutes.
+
+Consumers can download the 
+["last update"](http://data.gdeltproject.org/gdeltv2/lastupdate.txt), 
+a specific GDELT CSV file given a time, or all of the CSV files given between a time interval.  
+
+By default, files are downloaded into the `~/gdelt` directory; however, a different parent directory can be specified.
+Beneath the parent directory, files are automatically stored under the directory structure `YEAR/MONTH/DAY_OF_MONTH`.
+
+For instance, if we were to download 
+[20161201040000.export.CSV.zip](http://data.gdeltproject.org/gdeltv2/20161201040000.export.CSV.zip), 
+then the file would appear in `~/gdelt/2016/12/01`, by default.
+
+Whenever files are downloaded, we first check the target directory. 
+If we already have the `.CSV` file, we skip the download and return the file.
+If we have the corresponding `.CSV.zip`, then we unzip it and return the unzipped file.
 
 ### `GdeltApi.java`
 ##### `downloadLastUpdate` - fetches the latest CSV file
@@ -14,7 +27,7 @@ public class Test {
   public static void main(String[] args) {
     GdeltApi gdeltApi = new GdeltApi();
       
-    // fluent api for download csv files
+    // fluent api for downloading csv files.
     // only the default params are shown
     File csvFile = 
       gdeltApi.downloadLastUpdate()
