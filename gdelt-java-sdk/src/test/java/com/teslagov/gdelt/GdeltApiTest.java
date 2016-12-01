@@ -75,6 +75,12 @@ public class GdeltApiTest {
 	}
 
 	@Test
+	public void shouldSkipDownloadIfFileFound() {
+		gdeltApi.downloadUpdate(gdeltApi.getDefaultDirectory(), true, false, 2016, 8, 5, 13, 30);
+		gdeltApi.downloadUpdate(gdeltApi.getDefaultDirectory(), true, false, 2016, 8, 5, 13, 45);
+	}
+
+	@Test
 	public void testSpecificDownload() {
 		File file0 = gdeltApi.downloadUpdate(new File("src/test/resources"), true, false, 2016, 8, 5, 13, 15);
 		File file1 = gdeltApi.download().atTime(OffsetDateTime.of(2016, 8, 5, 13, 30, 0, 0, ZoneOffset.UTC)).execute();

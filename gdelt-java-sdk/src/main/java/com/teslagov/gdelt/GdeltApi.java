@@ -4,15 +4,22 @@ import com.teslagov.gdelt.csv.CsvProcessor;
 import com.teslagov.gdelt.csv.GDELTReturnResult;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Kevin Chen
  */
 public class GdeltApi {
+	private static final Logger logger = LoggerFactory.getLogger(GdeltApi.class);
+
 	private final HttpClient httpClient;
 
 	private final GdeltConfiguration gdeltConfiguration;
@@ -61,6 +68,7 @@ public class GdeltApi {
 	 * @param deleteZip      If you choose to unzip the CSV file, this method will not delete the zip file.
 	 * @return a GDELT CSV file.
 	 */
+	// TODO remove
 	public File downloadUpdate(File destinationDir, OffsetDateTime time, boolean unzip, boolean deleteZip) {
 		if (time.getMinute() % 15 != 0) {
 			throw new IllegalArgumentException("Given dateTime must be multiple of 15 minutes. Received: " + time);
@@ -74,6 +82,7 @@ public class GdeltApi {
 			time.getYear(), time.getMonth().getValue(), time.getDayOfMonth(), time.getHour(), time.getMinute());
 	}
 
+	// TODO remove
 	public File downloadUpdate(OffsetDateTime time) {
 		return downloadUpdate(getDefaultDirectory(), time, true, false);
 	}
@@ -90,16 +99,58 @@ public class GdeltApi {
 	 * @return a GDELT CSV file.
 	 */
 	public File downloadUpdate(File destinationDir, boolean unzip, boolean deleteZip, int year, int month, int dayOfMonth, int hour, int minute) {
+		File[] files = destinationDir.listFiles();
+		if (files != null) {
+			List<String> csvFileNames = Arrays.stream(files)
+				.filter(File::isFile)
+				.map(File::getName)
+				.filter(n -> n.endsWith(".CSV"))
+				.collect(Collectors.toList());
+
+			// we found the csv, just return it
+			String csvFileName = formatGdeltCsvFilename(year, month, dayOfMonth, hour, minute);
+			if (csvFileNames.contains(csvFileName)) {
+				logger.debug("Found CSV file for: {}", csvFileName);
+				return new File(destinationDir.getAbsolutePath() + File.separator + csvFileName);
+			}
+
+			List<String> zippedCsvFileNames = Arrays.stream(files)
+				.filter(File::isFile)
+				.map(File::getName)
+				.filter(n -> n.endsWith(".CSV.zip"))
+				.collect(Collectors.toList());
+
+			// we found the zipped csv, just unzip it and return the unzipped file
+			String zippedCsvFileName = formatGdeltZippedCsvFilename(year, month, dayOfMonth, hour, minute);
+			if (zippedCsvFileNames.contains(zippedCsvFileName)) {
+				logger.debug("Found zipped CSV file for: {}", zippedCsvFileName);
+				File zippedCsv = new File(destinationDir.getAbsolutePath() + File.separator + zippedCsvFileName);
+				return unzipCsv(zippedCsv, false);
+			}
+		}
+
 		String url = formatGdeltUrl(year, month, dayOfMonth, hour, minute);
 		return downloadGdeltFile(url, destinationDir, unzip, deleteZip);
 	}
 
+	String formatGdeltTime(int year, int month, int dayOfMonth, int hour, int minute) {
+		return String.format("%d%02d%02d%02d%02d00", year, month, dayOfMonth, hour, minute);
+	}
+
 	String formatGdeltUrl(int year, int month, int dayOfMonth, int hour, int minute) {
 		return String.format(
-			"%s/%d%02d%02d%02d%02d00.export.CSV.zip",
+			"%s/%s.export.CSV.zip",
 			gdeltConfiguration.getBaseURL(),
-			year, month, dayOfMonth, hour, minute
+			formatGdeltTime(year, month, dayOfMonth, hour, minute)
 		);
+	}
+
+	String formatGdeltCsvFilename(int year, int month, int dayOfMonth, int hour, int minute) {
+		return String.format("%s.export.CSV", formatGdeltTime(year, month, dayOfMonth, hour, minute));
+	}
+
+	String formatGdeltZippedCsvFilename(int year, int month, int dayOfMonth, int hour, int minute) {
+		return String.format("%s.zip", formatGdeltCsvFilename(year, month, dayOfMonth, hour, minute));
 	}
 
 	/**
