@@ -51,6 +51,10 @@ public class GdeltApi {
 		return new GdeltDownloadConfiguration(this);
 	}
 
+	public GdeltLastUpdateDownloadConfiguration downloadLastUpdate() {
+		return new GdeltLastUpdateDownloadConfiguration(this);
+	}
+
 	/**
 	 * @param destinationDir The directory to download files to.
 	 * @param unzip          Whether the downloaded file will be unzipped.
@@ -98,43 +102,6 @@ public class GdeltApi {
 	}
 
 	/**
-	 * Downloads a GDELT CSV file (unzipped), and does not delete the zip file.
-	 *
-	 * @param destinationDir The directory to download files to.
-	 * @return a GDELT CSV file.
-	 */
-	// TODO make syntactic sugar with GdeltLastUpdateDownloadConfiguration
-	public File downloadLastUpdate(File destinationDir) {
-		return downloadLastUpdate(destinationDir, true, false);
-	}
-
-	/**
-	 * Downloads a GDELT CSV file (unzipped) to {@code ~/gdelt}. This method does not delete the zip file afterward.
-	 *
-	 * @return a GDELT CSV file.
-	 */
-	public File downloadLastUpdate() {
-		File destinationDir = getDefaultDirectory();
-		return downloadLastUpdate(destinationDir, true, false);
-	}
-
-
-	File getDefaultDirectory() {
-		return new File(System.getProperty("user.home") + File.separator + "gdelt");
-	}
-
-	/**
-	 * Downloads a GDELT CSV file (zipped or unzipped).
-	 *
-	 * @param destinationDir The directory to download files to.
-	 * @param unzip          If you choose to unzip the CSV file, this method will not delete the zip file.
-	 * @return a GDELT CSV file
-	 */
-	public File downloadLastUpdate(File destinationDir, boolean unzip) {
-		return downloadLastUpdate(destinationDir, unzip, false);
-	}
-
-	/**
 	 * Returns the GDELT last updates CSV file (zipped or unzipped).
 	 *
 	 * @param destinationDir The directory to download files to.
@@ -142,7 +109,7 @@ public class GdeltApi {
 	 * @param deleteZip      If you choose to unzip the CSV file, this method will not delete the zip file.
 	 * @return a GDELT CSV file
 	 */
-	public File downloadLastUpdate(File destinationDir, boolean unzip, boolean deleteZip) {
+	File downloadLastUpdate(File destinationDir, boolean unzip, boolean deleteZip) {
 		String lastUpdateUrl = gdeltLastUpdateFetcher.getGDELTLastUpdate(httpClient, gdeltConfiguration);
 		return downloadGdeltFile(lastUpdateUrl, destinationDir, unzip, deleteZip);
 	}

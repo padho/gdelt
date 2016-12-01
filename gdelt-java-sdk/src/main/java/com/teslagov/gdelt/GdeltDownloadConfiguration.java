@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
  */
 public class GdeltDownloadConfiguration {
 	private GdeltApi gdeltApi;
-	private File directory = getDefaultDirectory();
+	private File directory = GdeltDefaultDirectoryFileFactory.getDefaultDirectory();
 	private boolean unzip = true;
 	private boolean deleteZipFile = false;
 	private OffsetDateTime offsetDateTime;
@@ -17,10 +17,6 @@ public class GdeltDownloadConfiguration {
 
 	public GdeltDownloadConfiguration(GdeltApi gdeltApi) {
 		this.gdeltApi = gdeltApi;
-	}
-
-	private static File getDefaultDirectory() {
-		return new File(System.getProperty("user.home") + File.separator + "gdelt");
 	}
 
 	public GdeltDownloadConfiguration toDirectory(File directory) {
