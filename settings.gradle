@@ -1,4 +1,3 @@
 rootProject.name = 'gdelt'
 include 'gdelt-java-sdk'
-include 'gdelt-example'
 
