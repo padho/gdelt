@@ -29,7 +29,7 @@ public class GdeltFileNameFormatter {
 	String formatGdeltUrl(int year, int month, int dayOfMonth, int hour, int minute) {
 		return String.format(
 			"%s/%s.export.CSV.zip",
-			gdeltConfiguration.getBaseURL(),
+			gdeltConfiguration.getGdeltV2URL(),
 			formatGdeltTime(year, month, dayOfMonth, hour, minute)
 		);
 	}

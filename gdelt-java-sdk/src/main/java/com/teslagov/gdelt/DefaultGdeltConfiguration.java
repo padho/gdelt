@@ -5,12 +5,17 @@ package com.teslagov.gdelt;
  */
 public class DefaultGdeltConfiguration implements GdeltConfiguration {
 	@Override
-	public String getBaseURL() {
-		return "http://data.gdeltproject.org/gdeltv2";
+	public String getGdeltBaseURL() {
+		return "http://data.gdeltproject.org";
 	}
 
 	@Override
-	public String getV2ServerURL() {
-		return getBaseURL() + "/lastupdate.txt";
+	public String getGdeltV2URL() {
+		return getGdeltBaseURL() + "/gdeltv2";
+	}
+
+	@Override
+	public String getGdeltLastUpdateURL() {
+		return getGdeltV2URL() + "/lastupdate.txt";
 	}
 }

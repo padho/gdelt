@@ -28,7 +28,7 @@ public class GdeltLastUpdateFetcher {
 	private static final Logger logger = LoggerFactory.getLogger(GdeltLastUpdateFetcher.class);
 
 	public String getGDELTLastUpdate(HttpClient httpClient, GdeltConfiguration gdeltConfiguration) {
-		String gdeltV2ServerURL = gdeltConfiguration.getV2ServerURL();
+		String gdeltV2ServerURL = gdeltConfiguration.getGdeltLastUpdateURL();
 
 		String csvLocation = null;
 
