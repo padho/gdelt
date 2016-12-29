@@ -1,7 +1,7 @@
 package com.teslagov.gdelt.csv;
 
 import com.teslagov.gdelt.GdeltException;
-import com.teslagov.gdelt.models.GdeltDailyDownloadResource;
+import com.teslagov.gdelt.models.GdeltDownloadResultResource;
 import com.teslagov.gdelt.models.GdeltEventResource;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -67,10 +67,10 @@ public class CsvProcessor {
 
 		GDELTReturnResult gdeltResult = new GDELTReturnResult();
 
-		GdeltDailyDownloadResource gdeltDownload = new GdeltDailyDownloadResource();
+		GdeltDownloadResultResource gdeltDownloadResultResource = new GdeltDownloadResultResource();
 		gdeltResult.setGdeltEventList(new ArrayList<>());
 
-		gdeltResult.setDownloadResult(gdeltDownload);
+		gdeltResult.setDownloadResult(gdeltDownloadResultResource);
 
 		int recordsLoaded = 0;
 		int recordsFailed = 0;
@@ -126,18 +126,18 @@ public class CsvProcessor {
 				gdeltEventList.addAll(result.getGdeltEventList());
 
 				// add to the main failed and loaded record count
-				GdeltDailyDownloadResource d = result.getDownloadResult();
+				GdeltDownloadResultResource d = result.getDownloadResult();
 
 				recordsFailed += d.getRecordsFailed();
 				recordsLoaded += d.getRecordsLoaded();
 			}
 		}
 
-		gdeltDownload.setDownloadedSuccessfully(Boolean.TRUE);
-		gdeltDownload.setRecordsFailed(recordsFailed);
-		gdeltDownload.setRecordsLoaded(recordsLoaded);
+		gdeltDownloadResultResource.setDownloadedSuccessfully(true);
+		gdeltDownloadResultResource.setRecordsFailed(recordsFailed);
+		gdeltDownloadResultResource.setRecordsLoaded(recordsLoaded);
 
-		gdeltResult.setDownloadResult(gdeltDownload);
+		gdeltResult.setDownloadResult(gdeltDownloadResultResource);
 
 		gdeltResult.setGdeltEventList(gdeltEventList);
 		return gdeltResult;
@@ -169,9 +169,9 @@ public class CsvProcessor {
 
 		logger.debug("Went through {} records", records.size());
 
-		GdeltDailyDownloadResource gdeltDownload = new GdeltDailyDownloadResource();
+		GdeltDownloadResultResource gdeltDownload = new GdeltDownloadResultResource();
 
-		gdeltDownload.setDownloadedSuccessfully(Boolean.TRUE);
+		gdeltDownload.setDownloadedSuccessfully(true);
 		gdeltDownload.setRecordsFailed(recordsFailed);
 		gdeltDownload.setRecordsLoaded(recordsLoaded);
 

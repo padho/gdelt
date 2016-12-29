@@ -1,6 +1,6 @@
 package com.teslagov.gdelt.csv;
 
-import com.teslagov.gdelt.models.GdeltDailyDownloadResource;
+import com.teslagov.gdelt.models.GdeltDownloadResultResource;
 import com.teslagov.gdelt.models.GdeltEventResource;
 
 import java.util.List;
@@ -9,15 +9,15 @@ import java.util.List;
  * @author Kevin Chen
  */
 public class GDELTReturnResult {
-	private GdeltDailyDownloadResource downloadResult;
+	private GdeltDownloadResultResource downloadResult;
 
 	private List<GdeltEventResource> gdeltEventList;
 
-	public GdeltDailyDownloadResource getDownloadResult() {
+	public GdeltDownloadResultResource getDownloadResult() {
 		return downloadResult;
 	}
 
-	public void setDownloadResult(GdeltDailyDownloadResource downloadResult) {
+	public void setDownloadResult(GdeltDownloadResultResource downloadResult) {
 		this.downloadResult = downloadResult;
 	}
 

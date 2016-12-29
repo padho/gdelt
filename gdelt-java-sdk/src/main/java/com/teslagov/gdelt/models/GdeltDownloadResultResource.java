@@ -1,25 +1,22 @@
 package com.teslagov.gdelt.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author Kevin Chen
  */
-public class GdeltDailyDownloadResource implements Serializable {
-	private Boolean downloadedSuccessfully;
+public class GdeltDownloadResultResource implements Serializable {
+	private boolean downloadedSuccessfully;
 
 	private int recordsLoaded;
 
 	private int recordsFailed;
 
-	private Date modifiedDate;
-
-	public Boolean getDownloadedSuccessfully() {
+	public boolean getDownloadedSuccessfully() {
 		return downloadedSuccessfully;
 	}
 
-	public void setDownloadedSuccessfully(Boolean downloadedSuccessfully) {
+	public void setDownloadedSuccessfully(boolean downloadedSuccessfully) {
 		this.downloadedSuccessfully = downloadedSuccessfully;
 	}
 
@@ -37,13 +34,5 @@ public class GdeltDailyDownloadResource implements Serializable {
 
 	public void setRecordsFailed(int recordsFailed) {
 		this.recordsFailed = recordsFailed;
-	}
-
-	public Date getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
 	}
 }
