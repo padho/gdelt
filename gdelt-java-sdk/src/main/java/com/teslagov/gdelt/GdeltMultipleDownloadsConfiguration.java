@@ -1,7 +1,12 @@
 package com.teslagov.gdelt;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * @author Kevin Chen
@@ -39,17 +44,22 @@ public class GdeltMultipleDownloadsConfiguration {
 		return this;
 	}
 
-	public void execute() {
-		if (until == null) {
-			// we cannot round up to next interval of 15, since it may not have been released yet
-			until = roundDown(LocalDateTime.now());
-		}
+	public Observable<File> execute() {
+		return Observable.create(observableEmitter -> {
+			if (until == null) {
+				// we cannot round up to next interval of 15, since it may not have been released yet
+				until = roundDown(LocalDateTime.now());
+			}
 
-		LocalDateTime time = since;
-		while (!time.isAfter(until)) {
-			gdeltApi.tryDownloadUpdate(directory, unzip, deleteZipFile, time.getYear(), time.getMonth().getValue(), time.getDayOfMonth(), time.getHour(), time.getMinute());
-			time = time.plusMinutes(15);
-		}
+			LocalDateTime time = since;
+			while (!time.isAfter(until)) {
+				Optional<File> fileOptional = gdeltApi.tryDownloadUpdate(directory, unzip, deleteZipFile, time.getYear(), time.getMonth().getValue(), time.getDayOfMonth(), time.getHour(), time.getMinute());
+				fileOptional.ifPresent(observableEmitter::onNext);
+				time = time.plusMinutes(15);
+			}
+
+			observableEmitter.onComplete();
+		});
 	}
 
 	private LocalDateTime roundDown(LocalDateTime time) {
