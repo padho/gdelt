@@ -1,16 +1,8 @@
-buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-  dependencies {
-    classpath "gradle.plugin.com.palantir.gradle.gitversion:gradle-git-version:0.5.2"
-    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1"
-  }
+plugins {
+  id 'com.palantir.git-version' version '0.7.3'
+  id 'com.jfrog.bintray'        version '1.7.3'
 }
 
-apply plugin: "com.palantir.git-version"
 def getVersionWithoutDirtySuffix = { ->
   def lastTag = versionDetails().lastTag
   if (lastTag.endsWith(".dirty")) {
@@ -34,8 +26,8 @@ ext {
   githubRepoName = 'gdelt'
   inceptionYear = 2016
 
-  bintrayUser = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-  bintrayApiKey = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+  bintrayUser = project.findProperty('bintrayUser') ?: System.getenv('BINTRAY_USER')
+  bintrayApiKey = project.findProperty('bintrayApiKey') ?: System.getenv('BINTRAY_API_KEY')
   bintrayOrgName = 'teslagov'
 
   ossrhUser = project.property('nexusUsername')
@@ -43,11 +35,10 @@ ext {
   passPhrase = project.property('signing.password')
   labels = ['gdelt']
 
-  slf4jVersion = "1.7.21"
+  slf4jVersion = '1.7.21'
   junitVersion = '4.12'
 }
 
-task wrapper(type: Wrapper) {
-  gradleVersion = '3.2.1'
-  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+wrapper {
+  gradleVersion = '4.0'
 }
