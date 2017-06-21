@@ -29,10 +29,6 @@ ext {
   bintrayUser = project.findProperty('bintrayUser') ?: System.getenv('BINTRAY_USER')
   bintrayApiKey = project.findProperty('bintrayApiKey') ?: System.getenv('BINTRAY_API_KEY')
   bintrayOrgName = 'teslagov'
-
-  ossrhUser = project.property('nexusUsername')
-  ossrhPass = project.property('nexusPassword')
-  passPhrase = project.property('signing.password')
   labels = ['gdelt']
 
   slf4jVersion = '1.7.21'
