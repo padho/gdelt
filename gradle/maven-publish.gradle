@@ -24,7 +24,7 @@ publishing {
             from components.java
             groupId rootProject.groupId
             artifactId project.artifactId
-            version project.version
+            version rootProject.bintrayVersion
 
             artifact sourceJar
             artifact javadocJar
