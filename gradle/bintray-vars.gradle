@@ -1,0 +1,13 @@
+ext {
+    groupId = rootProject.group
+    githubOrgName = 'TeslaGov'
+    githubRepoName = project.name
+    bintrayOrgName = 'teslagov'
+    bintrayRepoName = 'gdelt'
+    inceptionYear = 2017
+    bintrayVersion = trimV(rootProject.version)
+    bintrayUploadDryRun = true
+    bintrayUser = project.findProperty('bintrayUser') ?: System.getenv('BINTRAY_USER')
+    bintrayApiKey = project.findProperty('bintrayApiKey') ?: System.getenv('BINTRAY_API_KEY')
+    labels = ['gdelt']
+}

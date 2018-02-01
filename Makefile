@@ -9,8 +9,7 @@ patch-version:
 
 .PHONY: bintray-publish
 bintray-publish:
-	./gradlew clean build :proto:bintrayUpload
-	./gradlew clean build :grpc-sdk:bintrayUpload
+	./gradlew clean build :gdelt-java-sdk:bintrayUpload
 
 .PHONY: tag-and-publish
 tag-and-publish: patch-version bintray-publish

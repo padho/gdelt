@@ -1,40 +1,20 @@
 plugins {
-  id 'com.palantir.git-version' version '0.7.3'
-  id 'com.jfrog.bintray'        version '1.7.3'
+  id "com.jfrog.bintray" version "1.8.0"
 }
 
-def getVersionWithoutDirtySuffix = { ->
-  def lastTag = versionDetails().lastTag
-  if (lastTag.endsWith(".dirty")) {
-    return lastTag.substring(0, lastTag.indexOf(".dirty"));
+apply from: "$rootDir/gradle/git-version.gradle"
+
+group 'com.teslagov.gdelt'
+version getVersionFromGit()
+
+apply from: "$rootDir/gradle/bintray-vars.gradle"
+
+task echoVersion {
+  doLast {
+    println version
   }
-  return lastTag;
-}
-
-group = 'com.teslagov'
-version = getVersionWithoutDirtySuffix()
-description = """GDELT Java SDK"""
-
-subprojects {
-  apply plugin: 'idea'
-  apply plugin: 'java'
-  sourceCompatibility = 1.8
-}
-
-ext {
-  githubOrgName = 'TeslaGov'
-  githubRepoName = 'gdelt'
-  inceptionYear = 2016
-
-  bintrayUser = project.findProperty('bintrayUser') ?: System.getenv('BINTRAY_USER')
-  bintrayApiKey = project.findProperty('bintrayApiKey') ?: System.getenv('BINTRAY_API_KEY')
-  bintrayOrgName = 'teslagov'
-  labels = ['gdelt']
-
-  slf4jVersion = '1.7.21'
-  junitVersion = '4.12'
 }
 
 wrapper {
-  gradleVersion = '4.0'
+  gradleVersion = '4.5'
 }

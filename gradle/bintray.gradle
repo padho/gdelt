@@ -1,0 +1,36 @@
+apply plugin: 'com.jfrog.bintray'
+bintray {
+    user = project.bintrayUser
+    key = project.bintrayApiKey
+
+    publications = ['MyPublication']
+//    configurations = ['archives']
+
+    dryRun = rootProject.bintrayUploadDryRun
+
+    pkg {
+        repo = project.bintrayRepoName
+        name = project.bintrayPackageName
+        userOrg = project.bintrayOrgName
+        licenses = ['MIT']
+        vcsUrl = "https://github.com/${githubOrgName}/${githubRepoName}.git"
+        labels = project.labels
+        publicDownloadNumbers = true
+        version {
+            released = new Date()
+            desc = "${rootProject.githubOrgName} ${project.name} ${rootProject.bintrayVersion}"
+        }
+    }
+}
+
+bintrayUpload.doFirst {
+    if (rootProject.bintrayVersion.endsWith('-dirty'))
+        throw new GradleException(
+                """
+Hi there!
+You're trying to publish artifacts to Bintray, but you can't!
+This is because you cannot publish dirty artifacts.
+'Dirty' means you have some changes that have not been committed. 
+Please commit and push first.
+""")
+}

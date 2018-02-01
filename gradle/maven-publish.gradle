@@ -5,11 +5,15 @@ apply plugin: 'maven-publish'
 // https://docs.gradle.org/current/userguide/publishing_maven.html
 task sourceJar(type: Jar) {
     classifier 'sources'
+    baseName = rootProject.name + "-" + project.name
+    version = rootProject.bintrayVersion
     from sourceSets.main.allJava
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier 'javadoc'
+    baseName = rootProject.name + "-" + project.name
+    version = rootProject.bintrayVersion
     from javadoc.destinationDir
 }
 
@@ -18,8 +22,8 @@ publishing {
         MyPublication(MavenPublication) {
             // telling gradle to publish project's jar archive
             from components.java
-            groupId project.groupId
-            artifactId project.name
+            groupId rootProject.groupId
+            artifactId project.artifactId
             version project.version
 
             artifact sourceJar
@@ -44,11 +48,17 @@ publishing {
 
                 def developers = root.appendNode('developers')
 
-                def kevin = developers.appendNode('developer')
-                kevin.appendNode('id', 'kevinmichaelchen')
-                kevin.appendNode('name', 'Kevin Chen')
-                kevin.appendNode('email', 'kevin@teslagovernment.com')
-                kevin.appendNode('url', 'https://github.com/kevinmichaelchen')
+                def developer1 = developers.appendNode('developer')
+                developer1.appendNode('id', 'kevinmichaelchen')
+                developer1.appendNode('name', 'Kevin Chen')
+                developer1.appendNode('email', 'kevin.chen.bulk@gmail.com')
+                developer1.appendNode('url', 'https://github.com/kevinmichaelchen')
+
+                def developer2 = developers.appendNode('developer')
+                developer2.appendNode('id', 'crain9412')
+                developer2.appendNode('name', 'Jon Crain')
+                developer2.appendNode('email', 'jon.crain@teslagovernment.com')
+                developer2.appendNode('url', 'https://github.com/crain9412')
             }
         }
     }
