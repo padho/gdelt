@@ -91,7 +91,7 @@ public class GdeltApiTest
     @Test
     public void testDownloadSince()
     {
-        gdeltApi.downloadAllSince(LocalDateTime.now().minusHours(3)).execute();
+        gdeltApi.downloadAllSince(LocalDateTime.now().minusHours(1)).execute();
     }
 
     @Test

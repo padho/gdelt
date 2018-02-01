@@ -2,6 +2,7 @@ package com.teslagov.gdelt;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author Kevin Chen
@@ -17,7 +18,7 @@ public class GdeltMultipleDownloadsConfiguration
 
     public GdeltMultipleDownloadsConfiguration(GdeltApi gdeltApi, LocalDateTime since)
     {
-        this(gdeltApi, since, null);
+        this(gdeltApi, since, LocalDateTime.now());
     }
 
     public GdeltMultipleDownloadsConfiguration(GdeltApi gdeltApi, LocalDateTime since, LocalDateTime until)
@@ -75,6 +76,7 @@ public class GdeltMultipleDownloadsConfiguration
 
     private LocalDateTime removeSecondsAndNanos(LocalDateTime time)
     {
+        Objects.requireNonNull(time);
         return time.minusSeconds(time.getSecond()).minusNanos(time.getNano());
     }
 }
