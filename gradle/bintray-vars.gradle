@@ -6,7 +6,7 @@ ext {
     bintrayRepoName = 'gdelt'
     inceptionYear = 2017
     bintrayVersion = trimV(rootProject.version)
-    bintrayUploadDryRun = true
+    bintrayUploadDryRun = false
     bintrayUser = project.findProperty('bintrayUser') ?: System.getenv('BINTRAY_USER')
     bintrayApiKey = project.findProperty('bintrayApiKey') ?: System.getenv('BINTRAY_API_KEY')
     labels = ['gdelt']
