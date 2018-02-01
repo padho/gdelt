@@ -24,67 +24,81 @@ import java.io.IOException;
  *
  * @author Kevin Chen
  */
-public class GdeltLastUpdateFetcher {
-	private static final Logger logger = LoggerFactory.getLogger(GdeltLastUpdateFetcher.class);
+public class GdeltLastUpdateFetcher
+{
+    private static final Logger logger = LoggerFactory.getLogger(GdeltLastUpdateFetcher.class);
 
-	public String getGDELTLastUpdate(HttpClient httpClient, GdeltConfiguration gdeltConfiguration) {
-		String gdeltV2ServerURL = gdeltConfiguration.getGdeltLastUpdateURL();
+    public String getGDELTLastUpdate(HttpClient httpClient, GdeltConfiguration gdeltConfiguration)
+    {
+        String gdeltV2ServerURL = gdeltConfiguration.getGdeltLastUpdateURL();
 
-		String csvLocation = null;
+        String csvLocation = null;
 
-		HttpGet httpget = HttpGetter.get(gdeltV2ServerURL);
-		HttpResponse response;
-		long start = System.currentTimeMillis();
-		long end;
-		try {
-			response = httpClient.execute(httpget);
-		} catch (Exception e) {
-			end = System.currentTimeMillis();
-			logger.error("Failed to reach {} after {} ms. Socket timeout: {}, Connection timeout: {}",
-				gdeltV2ServerURL, end - start, HttpClientFactory.SOCKET_TIMEOUT, HttpClientFactory.CONNECTION_TIMEOUT);
-			logger.error("GDELT failed", e);
-			throw new GdeltException("Could not execute request for GDELT last update", e);
-		}
+        HttpGet httpget = HttpGetter.get(gdeltV2ServerURL);
+        HttpResponse response;
+        long start = System.currentTimeMillis();
+        long end;
+        try
+        {
+            response = httpClient.execute(httpget);
+        }
+        catch (Exception e)
+        {
+            end = System.currentTimeMillis();
+            logger.error("Failed to reach {} after {} ms. Socket timeout: {}, Connection timeout: {}",
+                gdeltV2ServerURL, end - start, HttpClientFactory.SOCKET_TIMEOUT, HttpClientFactory.CONNECTION_TIMEOUT);
+            logger.error("GDELT failed", e);
+            throw new GdeltException("Could not execute request for GDELT last update", e);
+        }
 
-		end = System.currentTimeMillis();
-		logger.debug("Successfully reached {} after {} ms. Socket timeout: {}, Connection timeout: {}",
-			gdeltV2ServerURL, end - start, HttpClientFactory.SOCKET_TIMEOUT, HttpClientFactory.CONNECTION_TIMEOUT);
+        end = System.currentTimeMillis();
+        logger.debug("Successfully reached {} after {} ms. Socket timeout: {}, Connection timeout: {}",
+            gdeltV2ServerURL, end - start, HttpClientFactory.SOCKET_TIMEOUT, HttpClientFactory.CONNECTION_TIMEOUT);
 
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new GdeltException("Response not OK");
-		}
+        if (response.getStatusLine().getStatusCode() != 200)
+        {
+            throw new GdeltException("Response not OK");
+        }
 
-		HttpEntity httpEntity = response.getEntity();
-		String update = null;
-		try {
-			update = EntityUtils.toString(httpEntity);
-		} catch (IOException e) {
-			throw new GdeltException("Could not read http entity from GDELT last update response", e);
-		}
+        HttpEntity httpEntity = response.getEntity();
+        String update = null;
+        try
+        {
+            update = EntityUtils.toString(httpEntity);
+        }
+        catch (IOException e)
+        {
+            throw new GdeltException("Could not read http entity from GDELT last update response", e);
+        }
 
-		logger.debug("FOUND RESPONSE: {}", update);
+        logger.debug("FOUND RESPONSE: {}", update);
 
-		return parseLastUpdateLocation(update);
-	}
+        return parseLastUpdateLocation(update);
+    }
 
-	String parseLastUpdateLocation(String update) {
-		String csvLocation;
+    String parseLastUpdateLocation(String update)
+    {
+        String csvLocation;
 
-		String[] updateEntries = StringUtils.split(update, ' ');
-		if (updateEntries == null || updateEntries.length <= 3) {
-			throw new GdeltException("GDELT last update text is supposed to have at least 3 entries. Instead we got: " + update);
-		} else {
-			csvLocation = updateEntries[2];
+        String[] updateEntries = StringUtils.split(update, ' ');
+        if (updateEntries == null || updateEntries.length <= 3)
+        {
+            throw new GdeltException("GDELT last update text is supposed to have at least 3 entries. Instead we got: " + update);
+        }
+        else
+        {
+            csvLocation = updateEntries[2];
 
-			int carriageReturn = csvLocation.indexOf("\n");
+            int carriageReturn = csvLocation.indexOf("\n");
 
-			if (carriageReturn > 0) {
-				csvLocation = csvLocation.split("\n")[0];
-			}
-		}
+            if (carriageReturn > 0)
+            {
+                csvLocation = csvLocation.split("\n")[0];
+            }
+        }
 
-		logger.debug("CSV LOCATION: {}", csvLocation);
+        logger.debug("CSV LOCATION: {}", csvLocation);
 
-		return csvLocation;
-	}
+        return csvLocation;
+    }
 }

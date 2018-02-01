@@ -15,6 +15,7 @@ ext {
     bintrayPackageName = project.name
 }
 
+apply from: "$rootDir/gradle/checkstyle.gradle"
 apply from: file('gradle/maven-publish.gradle')
 apply from: file('gradle/bintray.gradle')
 

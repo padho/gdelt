@@ -1,0 +1,41 @@
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <module name="TreeWalker">
+        <module name="AvoidStarImport"/>
+        <module name="ConstantName">
+            <property name="applyToPrivate" value="false"/>
+        </module>
+        <module name="LeftCurly">
+            <property name="option" value="nl"/>
+        </module>
+        <module name="RightCurly">
+            <property name="tokens" value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE,
+            CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, LITERAL_DO, STATIC_INIT, INSTANCE_INIT"/>
+            <property name="option" value="alone"/>
+        </module>
+        <module name="DefaultComesLast"/>
+        <module name="EmptyBlock"/>
+        <module name="Indentation"/>
+        <module name="LineLength">
+            <property name="max" value="250"/>
+        </module>
+        <module name="MethodLength">
+            <property name="max" value="180"/>
+            <property name="countEmpty" value="false"/>
+        </module>
+        <module name="OneStatementPerLine"/>
+        <module name="ParenPad">
+            <property name="tokens" value="ANNOTATION, ANNOTATION_FIELD_DEF,
+            CTOR_CALL, CTOR_DEF, ENUM_CONSTANT_DEF, EXPR, LITERAL_CATCH, LITERAL_DO,
+            LITERAL_FOR, LITERAL_IF, LITERAL_NEW, LITERAL_SWITCH, LITERAL_SYNCHRONIZED,
+            LITERAL_WHILE, METHOD_CALL, METHOD_DEF, QUESTION, RESOURCE_SPECIFICATION, SUPER_CTOR_CALL"/>
+            <property name="option" value="nospace"/>
+        </module>
+        <module name="StringLiteralEquality"/>
+        <module name="TrailingComment"/>
+        <module name="UnnecessaryParentheses"/>
+        <module name="UnusedImports"/>
+    </module>
+</module>
