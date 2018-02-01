@@ -3,7 +3,6 @@ package com.teslagov.gdelt;
 import com.teslagov.gdelt.csv.GDELTReturnResult;
 import com.teslagov.gdelt.models.GdeltEventResource;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,14 +11,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
-import static com.teslagov.gdelt.GdeltDefaultDirectoryFileFactory.getDefaultDirectory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
