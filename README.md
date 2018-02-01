@@ -19,10 +19,7 @@ or Maven
 </dependency>
 ```
 
-## Contributing
-Run `./gradlew check` to check style and run tests.
-Run `make tag-and-publish` to create a new Git tag and push to Bintray.
-
+## API
 Consumers can download the 
 ["last update"](http://data.gdeltproject.org/gdeltv2/lastupdate.txt), 
 a specific GDELT CSV file given a time, or all of the CSV files given between a time interval.  
@@ -78,3 +75,7 @@ public class Test {
   }
 }
 ```
+
+## Contributing
+Run `./gradlew check` to check style and run tests.
+Run `make tag-and-publish` to create a new Git tag and push to Bintray.
