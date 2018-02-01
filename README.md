@@ -77,5 +77,12 @@ public class Test {
 ```
 
 ## Contributing
-Run `./gradlew check` to check style and run tests.
-Run `make tag-and-publish` to create a new Git tag and push to Bintray.
+To check style and run tests, run
+```
+./gradlew check
+```
+
+To create a new Git tag and push to Bintray, run
+```
+make tag-and-publish
+```
