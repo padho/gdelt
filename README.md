@@ -1,6 +1,6 @@
 # gdelt-java-sdk
- 
- [![Download](https://api.bintray.com/packages/teslagov/gdelt/gdelt-java-sdk/images/download.svg?version=v0.0.7) ](https://bintray.com/teslagov/gdelt/gdelt-java-sdk/v0.0.7/link) 
+
+[![Download](https://api.bintray.com/packages/teslagov/gdelt/gdelt-java-sdk/images/download.svg?version=v0.0.7) ](https://bintray.com/teslagov/gdelt/gdelt-java-sdk/v0.0.7/link) 
 
 This project provides a fluent API for downloading [GDELT](http://gdeltproject.org/) CSV files, which are released every 15 minutes.
 
