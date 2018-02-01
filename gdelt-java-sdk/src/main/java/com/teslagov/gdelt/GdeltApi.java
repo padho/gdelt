@@ -61,6 +61,10 @@ public class GdeltApi {
 		return new GdeltMultipleDownloadsConfiguration(this, since);
 	}
 
+	public GdeltMultipleDownloadsConfiguration downloadAllBetween(LocalDateTime since, LocalDateTime until) {
+		return new GdeltMultipleDownloadsConfiguration(this, since, until);
+	}
+
 	Optional<File> tryDownloadUpdate(File parentDestinationDir, boolean unzip, boolean deleteZip, int year, int month, int dayOfMonth, int hour, int minute) {
 		try {
 			return Optional.of(downloadUpdate(parentDestinationDir, unzip, deleteZip, year, month, dayOfMonth, hour, minute));

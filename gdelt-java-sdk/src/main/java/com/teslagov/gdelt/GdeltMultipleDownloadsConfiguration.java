@@ -15,8 +15,13 @@ public class GdeltMultipleDownloadsConfiguration {
 	private LocalDateTime until;
 
 	public GdeltMultipleDownloadsConfiguration(GdeltApi gdeltApi, LocalDateTime since) {
+		this(gdeltApi, since, null);
+	}
+
+	public GdeltMultipleDownloadsConfiguration(GdeltApi gdeltApi, LocalDateTime since, LocalDateTime until) {
 		this.gdeltApi = gdeltApi;
 		this.since = roundDown(removeSecondsAndNanos(since));
+		this.until = roundDown(removeSecondsAndNanos(until));
 	}
 
 	public GdeltMultipleDownloadsConfiguration toDirectory(File directory) {

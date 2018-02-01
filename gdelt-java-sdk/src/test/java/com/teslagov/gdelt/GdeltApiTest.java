@@ -86,6 +86,13 @@ public class GdeltApiTest {
 	}
 
 	@Test
+	public void testDownloadBetween() {
+		gdeltApi.downloadAllBetween(
+			LocalDateTime.now().minusHours(3),
+			LocalDateTime.now().minusHours(2)).execute();
+	}
+
+	@Test
 	public void testDownload() {
 		// Download LastUpdate CSV
 		File csvFile = gdeltApi.downloadLastUpdate().execute();
