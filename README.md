@@ -4,6 +4,25 @@
 
 This project provides a fluent API for downloading [GDELT](http://gdeltproject.org/) CSV files, which are released every 15 minutes.
 
+## Usage
+You can pull with Gradle
+```groovy
+compile 'com.teslagov.gdelt:gdelt-java-sdk:0.0.7'
+```
+or Maven
+```xml
+<dependency>
+    <groupId>com.teslagov.gdelt</groupId>
+    <artifactId>gdelt-java-sdk</artifactId>
+    <version>0.0.7</version>
+    <type>pom</type>
+</dependency>
+```
+
+## Contributing
+Run `./gradlew check` to check style and run tests.
+Run `make tag-and-publish` to create a new Git tag and push to Bintray.
+
 Consumers can download the 
 ["last update"](http://data.gdeltproject.org/gdeltv2/lastupdate.txt), 
 a specific GDELT CSV file given a time, or all of the CSV files given between a time interval.  
