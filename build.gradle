@@ -4,7 +4,7 @@ plugins {
 
 apply from: "$rootDir/gradle/git-version.gradle"
 
-group 'com.teslagov.gdelt'
+group 'com.midas.gdelt'
 version getVersionFromGit()
 
 apply from: "$rootDir/gradle/bintray-vars.gradle"
