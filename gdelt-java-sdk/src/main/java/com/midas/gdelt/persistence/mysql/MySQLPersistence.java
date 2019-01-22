@@ -28,6 +28,62 @@ public class MySQLPersistence implements Persistence {
         System.out.print("INITIALIZED WITH " + url);
     }
 
+    private boolean tableExist(String tableName) throws SQLException {
+        boolean tExists = false;
+        try (ResultSet rs = this.connect.getMetaData().getTables(null, null, tableName, null)) {
+            while (rs.next()) {
+                String tName = rs.getString("TABLE_NAME");
+                if (tName != null && tName.equals(tableName)) {
+                    tExists = true;
+                    break;
+                }
+            }
+        }
+        return tExists;
+    }
+
+    private boolean createTableByMap(Map<String, Object> data, String tableName) throws Exception {
+        // check if connection is initialized
+        if(this.connect == null) {
+            throw new Exception("No database connection!");
+        }
+
+        // check if table already exists
+        if(this.tableExist(tableName)) {
+            return true;
+        }
+
+        String createTable = "CREATE TABLE IF NOT EXISTS "+ tableName +" (";
+        String type = "";
+        Statement statement = this.connect.createStatement();
+        ResultSet resultSet = null;
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            // TODO: Add rest of the MySQL types
+            if(value instanceof Integer) {
+                type = "INT";
+            } else if(value instanceof String) {
+                type = "varchar(255)";
+            } else if(value instanceof Double) {
+                type = "DOUBLE(16, 8)";
+            } else if(Class.forName("java.util.Date").isInstance(value)) {
+                type = "DATE";
+            }else if(value instanceof Boolean) {
+                type = "TINYINT(3)";
+            }
+            createTable = createTable + key + " " + type + ",\n";
+
+        }
+        createTable = createTable.replaceAll("(^(\\s*?\\,+)+\\s?)|(^\\s+)|(\\s+$)|((\\s*?\\,+)+\\s?$)", "");
+        createTable = createTable + ")";
+
+
+        boolean result = statement.execute(createTable);
+        return result;
+    }
+
     public void setTable(String table) {
         this.table = table;
     }
@@ -35,6 +91,7 @@ public class MySQLPersistence implements Persistence {
 
     public boolean persist(Map<String, Object> data) throws Exception {
 
+        // Check if table is set
         if(this.table == null) {
             throw new Exception("Error: No table for persistence selected!");
         }
@@ -52,40 +109,21 @@ public class MySQLPersistence implements Persistence {
             connect = DriverManager
                     .getConnection(connectionString, username, password);
 
+            // Check if table already exists
+            this.createTableByMap(data, table);
+
             // Build the query
             String query = "INSERT INTO " + this.table;
             String columns = "(";
             String value_placeholders = "values(";
 
-            String createTable = "CREATE TABLE Events (";
-            String type = "";
             for (Map.Entry<String, Object> entry : data.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
 
                 columns = columns + " " + key + ",";
                 value_placeholders = value_placeholders + " ?,";
-
-
-                if(value instanceof Integer) {
-                    type = "INT";
-                } else if(value instanceof String) {
-                    type = "varchar(100)";
-                } else if(value instanceof Double) {
-                    type = "DOUBLE(32, 24)";
-                } else if(Class.forName("java.util.Date").isInstance(value)) {
-                    type = "DATE()";
-                }
-                else if(value instanceof Boolean) {
-                   type = "TINYINT(3)";
-                }
-
-                createTable = createTable + key + " " + type + ",\n";
-
             }
-
-            createTable = createTable + ")";
-            System.out.println(createTable);
 
             columns = columns.replaceAll(",$", "");
             value_placeholders = value_placeholders.replaceAll(",$", "");
@@ -123,29 +161,15 @@ public class MySQLPersistence implements Persistence {
                 index++;
             }
 
-
             // execute query, and return number of rows created
             int rowCount = preparedStatement.executeUpdate();
             System.out.println("rowCount=" + rowCount);
-
-            /*
-            // Statements allow to issue SQL queries to the database
-            statement = connect.createStatement();
-            // Result set get the result of the SQL query
-            resultSet = statement
-                    .executeQuery("select * from ged181 LIMIT 20");
-            writeResultSet(resultSet);
-            */
 
         } catch (Exception e) {
             throw e;
         } finally {
             close();
         }
-
-
-
-
 
         return false;
     }

@@ -5,6 +5,7 @@ import com.midas.gdelt.persistence.Persistence;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -714,7 +715,7 @@ public class GdeltEventResource implements Serializable
 
     public void persist(Persistence persistence){
 
-        final Map<String, Object> data = new HashMap<>();
+        final Map<String, Object> data = new LinkedHashMap<>();
         data.put("globalEventID", globalEventID);
         data.put("actor1Code", actor1Code);
         data.put("actor1Name", actor1Code);
